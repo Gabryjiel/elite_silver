@@ -24,6 +24,7 @@ model Champion {
 
   id   Int    @id @default(autoincrement()) @map("cha_id")
   name String @map("cha_name") @db.VarChar(32)
+  slug String @map("cha_slug") @db.VarChar(16)
 
   bans          Ban[]
   playerMatches PlayerMatch[]
@@ -39,6 +40,7 @@ enum Waywin {
   KILL
   CS
   TOWER
+  SURRENDER
 }
 
 model Match {
@@ -48,7 +50,7 @@ model Match {
   stageId      Int    @map("mat_stg_id")
   waywin       Waywin @default(KILL) @map("mat_way_id")
   winside      Side   @default(BLUE) @map("mat_winside")
-  duration     Int    @default(0) @map("mat_duration")
+  duration     Int?   @default(0) @map("mat_duration")
 
   tournament    Tournament    @relation(fields: [tournamentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stage         Stage         @relation(fields: [stageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -61,13 +63,13 @@ model PlayerMatch {
 
   matchId    Int  @map("plm_mat_id")
   playerId   Int  @map("plm_pla_id")
-  championId Int  @map("plm_cha_id")
-  cs         Int  @default(0) @map("plm_cs")
+  championId Int? @map("plm_cha_id")
+  cs         Int? @default(0) @map("plm_cs")
   side       Side @default(BLUE) @map("plm_side")
 
-  champion Champion @relation(fields: [championId], references: [id])
-  player   Player   @relation(fields: [playerId], references: [id])
-  match    Match    @relation(fields: [matchId], references: [id])
+  champion Champion? @relation(fields: [championId], references: [id])
+  player   Player    @relation(fields: [playerId], references: [id])
+  match    Match     @relation(fields: [matchId], references: [id])
   @@id([matchId, playerId])
   @@map("players_matches")
 }
@@ -76,9 +78,9 @@ model Player {
 
   id     Int     @id @default(autoincrement()) @map("pla_id")
   name   String? @map("pla_name") @db.VarChar(32)
-  rankId Int     @map("pla_rnk_id")
+  rankId Int?    @map("pla_rnk_id")
 
-  rank          Rank          @relation(fields: [rankId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rank          Rank?         @relation(fields: [rankId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   bans          Ban[]
   playerMatches PlayerMatch[]
   @@map("players")
@@ -106,11 +108,11 @@ model Tournament {
 
   id          Int      @id @default(autoincrement()) @map("tou_id")
   name        String   @map("tou_name") @db.VarChar(64)
-  description String   @map("tou_description") @db.VarChar(512)
+  description String?  @map("tou_description") @db.VarChar(512)
   startDate   DateTime @map("tou_start_date") @db.Timestamp(3)
   endDate     DateTime @map("tou_end_date") @db.Timestamp(4)
   createdAt   DateTime @default(now()) @map("tou_created_at") @db.Timestamp()
-  updatedAt   DateTime @updatedAt() @map("tou_updated_at") @db.Timestamp(1)
+  updatedAt   DateTime @default(now()) @updatedAt() @map("tou_updated_at") @db.Timestamp(1)
 
   matches Match[]
   @@map("tournaments")

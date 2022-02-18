@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "lint": "next lint --fix",
+    "format": "prettier . --write --ignore-path .gitignore",
+    "lint": "eslint .  --fix --ignore-path .gitignore",
     "build": "next build",
     "start": "next start"
   },
@@ -12,7 +13,8 @@
     "@prisma/client": "^3.9.1",
     "next": "12.0.10",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "swiper": "^8.0.3"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^12.0.10",
@@ -24,10 +26,13 @@
     "eslint": "8.8.0",
     "eslint-config-next": "12.0.10",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "postcss": "^8.4.6",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.5",
