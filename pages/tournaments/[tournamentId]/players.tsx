@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import TournamentNavigation from '../../../src/components/TournamentNavigation';
-import Wrapper from '../../../src/components/Wrapper';
+import TournamentNavigation from '../../../src/tournaments/TournamentNavigation';
+import Wrapper from '../../../src/layout/Wrapper';
 import {
   getPlayersFromTournament,
   getTournament,
@@ -13,7 +13,7 @@ import { getTournamentParams } from '../../../src/helpers/params/getTournamentPa
 import { getIcon, getWaywinIcon } from '../../../src/helpers/image.helpers';
 import { getWaywinTooltip } from '../../../src/helpers/tooltip.helpers';
 import { PlayerPlacement } from '../../../types/types';
-import PlayerCard from '../../../src/components/PlayerCard';
+import PlayerCard from '../../../src/common/PlayerCard';
 
 interface Count {
   count: number;

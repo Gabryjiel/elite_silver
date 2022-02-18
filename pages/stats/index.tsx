@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Wrapper from '../../src/components/Wrapper';
+import Wrapper from '../../src/layout/Wrapper';
 
 export default function Stats() {
   return (
