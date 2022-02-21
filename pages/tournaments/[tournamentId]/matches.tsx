@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import TournamentNavigation from '../../../src/tournaments/TournamentNavigation';
-import Wrapper from '../../../src/layout/Wrapper';
-import { getTournamentParams } from '../../../src/helpers/params/getTournamentParams';
+import TournamentNavigation from '../../../components/tournaments/TournamentNavigation';
+import Wrapper from '../../../components/layout/Wrapper';
+import { getTournamentParams } from '../../../lib/getTournamentParams';
 
 export default function TournamentMatches(props: any) {
   return (

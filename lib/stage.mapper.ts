@@ -1,6 +1,6 @@
 /* eslint-disable no-fallthrough */
 import { Match, Stage, PlayerMatch, Player } from '@prisma/client';
-import { PlayerPlacement } from '../../../types/types';
+import { PlayerPlacement } from '../types/types';
 
 export function getStageValue(stage: Stage) {
   let value = 0;

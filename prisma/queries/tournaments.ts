@@ -1,10 +1,10 @@
 import { Champion } from '@prisma/client';
-import { excludeDates } from '../helpers/excludeDates';
+import { excludeDates } from '../../lib/excludeDates';
 import {
   getPlayerPlacement,
   getStageValue,
-} from '../helpers/mappers/stage.mapper';
-import prisma from '../../prisma/prisma';
+} from '../../lib/stage.mapper';
+import prisma from '../prisma';
 import { TournamentIndexDTO } from '../../types/tournament.dto';
 
 export async function getTournaments(): Promise<TournamentIndexDTO[]> {

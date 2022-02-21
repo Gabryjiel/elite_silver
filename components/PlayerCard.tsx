@@ -1,25 +1,21 @@
 import { Champion, Player } from '@prisma/client';
 import Image from 'next/image';
-import { getCardColorFromPlacement } from '../helpers/components/getCardColorFromPlacement';
-import { getSplash } from '../helpers/image.helpers';
-import { PlayerPlacement } from '../../types/types';
-
-interface Count {
-  count: number;
-}
-interface Results {
-  wins: number;
-  loses: number;
-}
-interface PlayerInfo {
-  record: Results;
-  champions: (Champion & Count)[];
-  placement: PlayerPlacement;
-}
+import { getCardColorFromPlacement } from './getCardColorFromPlacement';
+import { getSplash } from '../lib/image.helpers';
+import { PlayerPlacement } from '../types/types';
 
 type PlayerCardProps = {
-  player: Player & PlayerInfo;
   tournamentName: string;
+  player: Player & {
+    record: {
+      wins: number;
+      loses: number;
+    };
+    champions: (Champion & {
+      count: number;
+    })[];
+    placement: PlayerPlacement;
+  };
 };
 
 export default function PlayerCard(props: PlayerCardProps) {

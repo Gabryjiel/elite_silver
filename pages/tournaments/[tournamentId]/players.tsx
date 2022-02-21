@@ -1,19 +1,19 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import TournamentNavigation from '../../../src/tournaments/TournamentNavigation';
-import Wrapper from '../../../src/layout/Wrapper';
+import TournamentNavigation from '../../../components/tournaments/TournamentNavigation';
+import Wrapper from '../../../components/layout/Wrapper';
 import {
   getPlayersFromTournament,
   getTournament,
-} from '../../../src/queries/tournaments';
+} from '../../../prisma/queries/tournaments';
 import { Champion, Player, Tournament } from '@prisma/client';
 import { ChangeEvent, useState } from 'react';
 import Link from 'next/link';
-import { getTournamentParams } from '../../../src/helpers/params/getTournamentParams';
-import { getIcon, getWaywinIcon } from '../../../src/helpers/image.helpers';
-import { getWaywinTooltip } from '../../../src/helpers/tooltip.helpers';
+import { getTournamentParams } from '../../../lib/getTournamentParams';
+import { getIcon, getWaywinIcon } from '../../../lib/image.helpers';
+import { getWaywinTooltip } from '../../../lib/tooltip.helpers';
 import { PlayerPlacement } from '../../../types/types';
-import PlayerCard from '../../../src/common/PlayerCard';
+import PlayerCard from '../../../components/PlayerCard';
 
 interface Count {
   count: number;

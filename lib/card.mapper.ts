@@ -14,4 +14,6 @@ function sweepGroupAchievement() {
   return true;
 }
 
-export function getAchievements() {}
+export function getAchievements() {
+  return null;
+}

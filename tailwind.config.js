@@ -1,5 +1,6 @@
 module.exports = {
   content: [
+    './components/**/*.{js,ts,jsx,tsx}',
     './pages/**/*.{js,ts,jsx,tsx}',
     './src/common/*.{js,ts,jsx,tsx}',
     './src/layout/**/*.{js,ts,jsx,tsx}',

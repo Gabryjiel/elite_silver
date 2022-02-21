@@ -1,4 +1,4 @@
-import { getTournamentIds } from '../../queries/tournaments';
+import { getTournamentIds } from '../prisma/queries/tournaments';
 
 export async function getTournamentParams() {
   const tournaments = await getTournamentIds();

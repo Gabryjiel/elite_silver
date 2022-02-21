@@ -1,8 +1,8 @@
 import { Waywin } from '@prisma/client';
-import TowerSrc from '../../public/images/big-towers.png';
-import SwordSrc from '../../public/images/sword.png';
-import CsSrc from '../../public/images/100.png';
-import FlagSrc from '../../public/images/flag.png';
+import TowerSrc from '../public/images/big-towers.png';
+import SwordSrc from '../public/images/sword.png';
+import CsSrc from '../public/images/100.png';
+import FlagSrc from '../public/images/flag.png';
 
 function mapName(championName: string) {
   return championName.replace(/[ ']/g, '');
