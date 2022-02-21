@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Wrapper from '../../src/layout/Wrapper';
-import cloudJpg from '../../images/clouds.jpg';
+import cloudJpg from '../../public/images/clouds.jpg';
 import Link from 'next/link';
 import { getTournaments } from '../../src/queries/tournaments';
 import { TournamentIndexDTO } from '../../types/tournament.dto';
