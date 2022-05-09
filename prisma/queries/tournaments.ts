@@ -1,9 +1,6 @@
 import { Champion } from '@prisma/client';
 import { excludeDates } from '../../lib/excludeDates';
-import {
-  getPlayerPlacement,
-  getStageValue,
-} from '../../lib/stage.mapper';
+import { getPlayerPlacement, getStageValue } from '../../lib/stage.mapper';
 import prisma from '../prisma';
 import { TournamentIndexDTO } from '../../types/tournament.dto';
 

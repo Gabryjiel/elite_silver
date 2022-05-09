@@ -17,6 +17,16 @@ export default function TournamentMatches(props: any) {
         name={props.tournament.name}
         winner={'Hauche'}
       />
+
+      {props.matches.map((match) => {
+        return (
+          <div className="flex justify-between">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        );
+      })}
     </Wrapper>
   );
 }
@@ -26,12 +36,15 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: any) {
+  const { tournamentId } = params;
+
   return {
     props: {
       tournament: {
         tournamentId: params.tournamentId,
         name: 'Elite Bronze',
       },
+      matches: [{ blue: {}, red: {}, general: {} }],
     },
   };
 }

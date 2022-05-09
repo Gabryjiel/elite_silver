@@ -53,7 +53,8 @@ export default function PlayerCard(props: PlayerCardProps) {
           <div
             key={`card-${props.player.id}-${champion.id}`}
             className="z-20 flex gap-3 text-lg">
-            <div className="aspect-square rounded-full border-2 border-slate-400 bg-slate-300 text-center font-mono text-sm">
+            <div
+              className={`aspect-square rounded-full border-2 border-slate-800 bg-slate-300 text-center font-mono text-sm ${colors.placementBg}`}>
               {champion.count}
             </div>
             <div className="flex items-center text-sm font-semibold">

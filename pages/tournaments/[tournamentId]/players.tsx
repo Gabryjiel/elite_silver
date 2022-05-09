@@ -152,9 +152,7 @@ export default function TournamentPlayers(props: TournamentPlayersProps) {
                             layout="fill"
                             objectFit="contain"
                             objectPosition="center"
-                            className={`invert ${
-                              firstGrayscale ? '-scale-x-100' : ''
-                            }`}
+                            className="invert"
                           />
                         </a>
                       </Link>
