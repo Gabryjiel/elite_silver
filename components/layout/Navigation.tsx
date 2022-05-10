@@ -32,7 +32,7 @@ export default function Navigation() {
       <div className="my-8 grid h-16 place-items-center">
         <span className="text-3xl text-stone-300">
           <Link href="/" passHref>
-            Prokrastynatorzy
+            Elite Silver
           </Link>
         </span>
       </div>

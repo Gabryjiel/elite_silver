@@ -7,7 +7,7 @@ import { TournamentIndexDTO } from '../../types/tournament.dto';
 export async function getTournaments(): Promise<TournamentIndexDTO[]> {
   const result = await prisma.tournament.findMany({
     select: {
-      id: true,
+      tournamentId: true,
       name: true,
       description: true,
       startDate: true,
@@ -21,7 +21,7 @@ export async function getTournaments(): Promise<TournamentIndexDTO[]> {
   });
 
   const mapped = result.map((tournament) => ({
-    id: tournament.id,
+    id: tournament.tournamentId,
     name: tournament.name,
     startDate: tournament.startDate
       ?.toISOString()
