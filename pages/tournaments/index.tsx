@@ -1,12 +1,14 @@
 import Head from 'next/head';
+import Breadcrumbs from '../../components/layout/Breadcrumbs';
+import { BreadcrumbsLink } from '../../components/layout/Breadcrumbs/Breadcrumbs';
 import Header from '../../components/layout/Header';
 import Wrapper from '../../components/layout/Wrapper';
-import TournamentItem from '../../components/tournaments/TournamentItem';
 import TournamentList from '../../components/tournaments/TournamentList';
 import { getTournaments } from '../../prisma/queries/tournaments';
 import { TournamentIndexDTO } from '../../types/tournament.dto';
 
 interface TournamentsPageProps {
+  breadcrumbsLinks: BreadcrumbsLink[];
   tournaments: TournamentIndexDTO[];
 }
 
@@ -21,9 +23,8 @@ export default function Tournaments(props: TournamentsPageProps) {
 
       <Wrapper>
         <Header />
+        <Breadcrumbs links={props.breadcrumbsLinks} />
         <div className="flex flex-grow flex-col p-4">
-          <span className="text-4xl text-stone-300">Turnieje</span>
-
           <TournamentList tournaments={props.tournaments} />
         </div>
       </Wrapper>
@@ -33,10 +34,15 @@ export default function Tournaments(props: TournamentsPageProps) {
 
 export async function getStaticProps() {
   const tournaments = await getTournaments();
+  const breadcrumbsLinks = [
+    { label: 'Strona główna', href: '/' },
+    { label: 'Turnieje', href: '/tournaments' },
+  ];
 
   return {
     props: {
       tournaments,
+      breadcrumbsLinks,
     },
   };
 }

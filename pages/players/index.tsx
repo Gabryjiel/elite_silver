@@ -1,8 +1,14 @@
 import Head from 'next/head';
+import Breadcrumbs from '../../components/layout/Breadcrumbs';
+import { BreadcrumbsLink } from '../../components/layout/Breadcrumbs/Breadcrumbs';
 import Header from '../../components/layout/Header';
 import Wrapper from '../../components/layout/Wrapper';
 
-export default function Players() {
+interface PlayersPageProps {
+  breadcrumbsLinks: BreadcrumbsLink[];
+}
+
+export default function Players(props: PlayersPageProps) {
   return (
     <>
       <Head>
@@ -13,7 +19,21 @@ export default function Players() {
 
       <Wrapper>
         <Header />
+        <Breadcrumbs links={props.breadcrumbsLinks} />
       </Wrapper>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const breadcrumbsLinks = [
+    { label: 'Strona główna', href: '/' },
+    { label: 'Zawodnicy', href: '/stats' },
+  ];
+
+  return {
+    props: {
+      breadcrumbsLinks,
+    },
+  };
 }

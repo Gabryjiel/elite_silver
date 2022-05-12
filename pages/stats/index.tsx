@@ -1,8 +1,14 @@
 import Head from 'next/head';
+import Breadcrumbs from '../../components/layout/Breadcrumbs';
+import { BreadcrumbsLink } from '../../components/layout/Breadcrumbs/Breadcrumbs';
 import Header from '../../components/layout/Header';
 import Wrapper from '../../components/layout/Wrapper';
 
-export default function Stats() {
+interface StatsPageProps {
+  breadcrumbsLinks: BreadcrumbsLink[];
+}
+
+export default function Stats(props: StatsPageProps) {
   return (
     <>
       <Head>
@@ -13,7 +19,21 @@ export default function Stats() {
 
       <Wrapper>
         <Header />
+        <Breadcrumbs links={props.breadcrumbsLinks} />
       </Wrapper>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const breadcrumbsLinks = [
+    { label: 'Strona główna', href: '/' },
+    { label: 'Statystyki', href: '/stats' },
+  ];
+
+  return {
+    props: {
+      breadcrumbsLinks,
+    },
+  };
 }

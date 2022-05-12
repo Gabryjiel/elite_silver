@@ -1,8 +1,14 @@
 import Head from 'next/head';
 import Wrapper from 'components/layout/Wrapper';
 import Header from '../components/layout/Header';
+import Breadcrumbs from '../components/layout/Breadcrumbs';
+import { BreadcrumbsLink } from '../components/layout/Breadcrumbs/Breadcrumbs';
 
-export default function Index() {
+interface HomePageProps {
+  breadcrumbsLinks: BreadcrumbsLink[];
+}
+
+export default function Index(props: HomePageProps) {
   return (
     <>
       <Head>
@@ -13,7 +19,18 @@ export default function Index() {
 
       <Wrapper>
         <Header />
+        <Breadcrumbs links={props.breadcrumbsLinks} />
       </Wrapper>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const breadcrumbsLinks = [{ label: 'Strona główna', href: '/' }];
+
+  return {
+    props: {
+      breadcrumbsLinks,
+    },
+  };
 }
