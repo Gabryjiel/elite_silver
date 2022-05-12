@@ -111,8 +111,8 @@ model Tournament {
   description String?  @map("tou_description") @db.VarChar(512)
   startDate   DateTime @map("tou_start_date") @db.Timestamp(3)
   endDate     DateTime @map("tou_end_date") @db.Timestamp(4)
-  createdAt   DateTime @default(now()) @map("tou_created_at") @db.Timestamp()
-  updatedAt   DateTime @default(now()) @updatedAt() @map("tou_updated_at") @db.Timestamp(1)
+  createdAt   DateTime @default(now()) @map("tou_created_at") @db.Timestamp() @ignore
+  updatedAt   DateTime @default(now()) @updatedAt() @map("tou_updated_at") @db.Timestamp(1) @ignore
 
   matches Match[]
   @@map("tournaments")

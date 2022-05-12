@@ -5,15 +5,17 @@ import Wrapper from '../../../components/layout/Wrapper';
 import {
   getPlayersFromTournament,
   getTournament,
-} from '../../../prisma/queries/tournaments';
+  pluckTournamentIds,
+} from '../../../prisma/queries';
 import { Champion, Player, Tournament } from '@prisma/client';
 import { ChangeEvent, useState } from 'react';
 import Link from 'next/link';
-import { getTournamentParams } from '../../../lib/getTournamentParams';
 import { getIcon, getWaywinIcon } from '../../../lib/image.helpers';
 import { getWaywinTooltip } from '../../../lib/tooltip.helpers';
 import { PlayerPlacement } from '../../../types/types';
 import PlayerCard from '../../../components/PlayerCard';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { TournamentDTO } from '../../../types/dtos';
 
 interface Count {
   count: number;
@@ -27,12 +29,17 @@ interface PlayerInfo {
   champions: (Champion & Count)[];
   placement: PlayerPlacement;
 }
-interface TournamentPlayersProps {
+
+type Paths = {
+  id: string;
+};
+
+interface Props {
+  tournament: TournamentDTO;
   players: (Player & PlayerInfo)[];
-  tournament: Tournament;
 }
 
-export default function TournamentPlayers(props: TournamentPlayersProps) {
+export default function TournamentPlayers(props: Props) {
   const [player, setPlayer] = useState<(Player & PlayerInfo) | null>(null);
   const [search, setSearch] = useState('');
 
@@ -211,14 +218,29 @@ export default function TournamentPlayers(props: TournamentPlayersProps) {
   );
 }
 
-export async function getStaticPaths() {
-  return getTournamentParams();
-}
+export const getStaticPaths: GetStaticPaths<Paths> = async () => {
+  const tournaments = await pluckTournamentIds();
 
-export async function getStaticProps({ params }: any) {
-  const tournamentId = Number(params.tournamentId);
+  return {
+    fallback: false,
+    paths: tournaments.map(({ tournamentId }) => ({
+      params: {
+        tournamentId: tournamentId.toString(),
+      },
+    })),
+  };
+};
+
+export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
+  const tournamentId = parseInt(context.params?.tournamentId ?? '0');
   const tournament = await getTournament(tournamentId);
   const players = await getPlayersFromTournament(tournamentId);
+
+  if (tournament == null) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
@@ -226,4 +248,4 @@ export async function getStaticProps({ params }: any) {
       players,
     },
   };
-}
+};

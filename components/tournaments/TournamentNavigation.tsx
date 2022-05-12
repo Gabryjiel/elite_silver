@@ -4,7 +4,7 @@ import TournamentNavItem from './TournamentNavItem';
 type TournamentNavigationProps = {
   name: string;
   winner: string;
-  tournamentId: number;
+  tournamentId: string | number;
 };
 
 export default function TournamentNavigation(props: TournamentNavigationProps) {
