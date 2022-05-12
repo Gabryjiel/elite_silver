@@ -17,7 +17,9 @@ export function IconBar() {
     <div className="flex gap-4 p-4 text-4xl">
       {icons.map((icon) => {
         const isActive = icon.href === router.pathname;
-        const fill = isActive ? 'fill-lime-500' : 'fill-stone-500';
+        const fill = isActive
+          ? 'fill-lime-500'
+          : 'fill-stone-500 hover:fill-stone-300';
 
         return (
           <Link key={icon.href} href={icon.href} passHref>
