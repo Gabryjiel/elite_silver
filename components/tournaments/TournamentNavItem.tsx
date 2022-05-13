@@ -13,7 +13,8 @@ export default function TournamentNavItem(props: TournamentNavItemProps) {
   return (
     <Link href={props.href} passHref>
       <a
-        className={`text-stone-400' grid h-full w-full cursor-pointer place-items-center bg-stone-800 text-xl hover:brightness-125 ${active} ${props.className}`}>
+        className={`grid h-full w-full cursor-pointer select-none place-items-center bg-stone-800 text-xl hover:brightness-125 ${active} ${props.className}`}
+      >
         {props.children}
       </a>
     </Link>

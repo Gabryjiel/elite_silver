@@ -12,8 +12,10 @@ interface BreadcrumbsProps {
 export function Breadcrumbs(props: BreadcrumbsProps) {
   const { links } = props;
 
+  return null;
+
   return (
-    <div className="flex h-10 w-full items-center border-b-2 border-b-stone-700 py-2 text-stone-200">
+    <div className="flex h-10 w-full items-center border-b-2 border-b-stone-700 py-2 text-stone-200 ">
       {links.map((link, idx) => {
         if (idx === links.length - 1) {
           return (

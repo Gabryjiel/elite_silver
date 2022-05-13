@@ -1,6 +1,11 @@
+import { TournamentIndexDTO } from '../../../types/tournament.dto';
 import TournamentItem from '../TournamentItem';
 
-export function TournamentList(props: any) {
+interface Props {
+  tournaments: TournamentIndexDTO[];
+}
+
+export function TournamentList(props: Props) {
   return (
     <div
       id="tournament-container"
