@@ -1,21 +1,11 @@
-import { Champion, Player } from '@prisma/client';
 import Image from 'next/image';
 import { getCardColorFromPlacement } from './getCardColorFromPlacement';
 import { getSplash } from '../lib/image.helpers';
-import { PlayerPlacement } from '../types/types';
+import { ReturnPlayer } from '../prisma/queries';
 
 type PlayerCardProps = {
   tournamentName: string;
-  player: Player & {
-    record: {
-      wins: number;
-      loses: number;
-    };
-    champions: (Champion & {
-      count: number;
-    })[];
-    placement: PlayerPlacement;
-  };
+  player: ReturnPlayer;
 };
 
 export default function PlayerCard(props: PlayerCardProps) {
@@ -72,7 +62,7 @@ export default function PlayerCard(props: PlayerCardProps) {
       <div
         className={`absolute bottom-1 mr-8 w-16 self-end rounded-md border-2 text-center text-sm font-bold ${colors.infoBg} ${colors.infoBorder}`}
       >
-        {`${props.player.record.wins} / ${props.player.record.loses}`}
+        {`${props.player.record}`}
       </div>
     </div>
   );

@@ -6,4 +6,5 @@ export type PlayerPlacement =
   | 'Ćwierćfinalista'
   | '1/8 finałów'
   | '1/16 finałów'
-  | 'Faza grupowa';
+  | 'Faza grupowa'
+  | 'Uczestnik';

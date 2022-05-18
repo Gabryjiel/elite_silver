@@ -8,7 +8,11 @@ function mapName(championName: string) {
   return championName.replace(/[ ']/g, '');
 }
 
-export function getSplash(championName: string) {
+export function getSplash(championName?: string) {
+  if (!championName) {
+    return '';
+  }
+
   return `http://ddragon.leagueoflegends.com/cdn/img/champion/centered/${mapName(
     championName
   )}_0.jpg`;
