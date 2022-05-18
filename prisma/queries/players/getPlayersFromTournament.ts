@@ -9,10 +9,7 @@ interface UniqueChampion extends Partial<Champion> {
   count: number;
 }
 
-enum Result {
-  WIN = 'WIN',
-  LOSS = 'LOSS',
-}
+type Result = 'WIN' | 'LOSS';
 
 interface CustomMatch {
   id: number;
@@ -144,7 +141,7 @@ function getAllMatches(player: CustomPlayer): CustomMatch[] {
         stage: match.stage,
         waywin: match.waywin,
         winside: match.winside,
-        result: match.winside === self.side ? Result.WIN : Result.LOSS,
+        result: (match.winside === self.side ? 'WIN' : 'LOSS') as Result,
         duration: match.duration,
       };
     })
@@ -211,7 +208,7 @@ export async function getPlayersFromTournament(
   return players.map((player) => {
     const champions = getUniqueChampions(player);
     const matches = getAllMatches(player);
-    const wonMatches = matches.filter((match) => match?.result === Result.WIN);
+    const wonMatches = matches.filter((match) => match?.result === 'WIN');
     const placement = getPlayerPlacement(player);
 
     return {
