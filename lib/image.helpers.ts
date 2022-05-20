@@ -8,6 +8,8 @@ function mapName(championName: string) {
   switch (championName) {
     case 'Tahm Kench':
       return 'TahmKench';
+    case 'Lee Sin':
+      return 'LeeSin';
     default:
       return championName
         .toLowerCase()

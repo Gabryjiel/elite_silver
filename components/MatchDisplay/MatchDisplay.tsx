@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getLoading, getIcon } from '../../lib/image.helpers';
+import { getLoading, getIcon, getWaywinIcon } from '../../lib/image.helpers';
 
 import { GetMatchesFromTournamentT } from '../../prisma/queries';
 import { ArrayElement } from '../../types/utils';
@@ -64,18 +64,34 @@ export function MatchDisplay(props: Props) {
       <div id="match-details" className="h-full w-1/5">
         <div className="flex h-1/2 w-full items-center justify-between text-5xl text-stone-300">
           <span
-            className={`text-7xl ${p0Won ? 'text-green-600' : 'text-gray-600'}`}
+            className={`w-1/3 text-center text-7xl ${
+              p0Won ? 'text-green-600' : 'text-gray-600'
+            }`}
           >
             {p0Won ? 'W' : 'L'}
           </span>
-          <span className="text-3xl">VS</span>
+          <span className="relative h-1/4 w-1/3 text-3xl">
+            <Image
+              src={getWaywinIcon(match.waywin)}
+              alt="Waywin"
+              layout="fill"
+              objectFit="contain"
+              className="contrast-50 invert"
+            />
+          </span>
           <span
-            className={`text-7xl ${p1Won ? 'text-green-600' : 'text-gray-600'}`}
+            className={`w-1/3 text-center text-7xl ${
+              p1Won ? 'text-green-600' : 'text-gray-600'
+            }`}
           >
             {p1Won ? 'W' : 'L'}
           </span>
         </div>
-        <div className="h-1/2 w-full"></div>
+        <div className="h-1/2 w-full text-4xl">
+          <div className="grid place-items-center text-stone-300">
+            {match.stage.name}
+          </div>
+        </div>
       </div>
 
       <div id="player-2" className="h-full w-2/5">

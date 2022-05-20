@@ -17,7 +17,7 @@ export function PlayerCard(props: PlayerCardProps) {
     <div
       className={`relative flex aspect-card h-full flex-col items-center rounded-xl border-8  border-black py-3 ${colors.cardBg}`}
     >
-      <div className="h-1/12 mb-1 flex w-full items-center justify-center text-2xl">
+      <div className="mb-1 flex h-1/12 w-full items-center justify-center text-2xl">
         <span className="font-serif font-bold">{props.player.name}</span>
       </div>
       <div className="rounded-top-xl relative h-3/5 w-11/12 border-2 border-black bg-gray-300">
@@ -40,7 +40,7 @@ export function PlayerCard(props: PlayerCardProps) {
         className={`relative flex h-2/6 w-11/12 flex-col flex-wrap justify-start gap-1 overflow-hidden rounded-md border-2 p-2 pt-1 pl-2 shadow-xl ${colors.dataBg} ${colors.dataBorder}`}
       >
         <div
-          className={`absolute z-10 -ml-2 -mt-2 grid h-full w-full place-items-center  text-center text-2xl font-extrabold opacity-40 ${colors.dataBgTextColor}`}
+          className={`absolute z-10 -ml-2 -mt-2 grid h-full w-full place-items-center text-center text-4xl font-extrabold opacity-40 ${colors.dataBgTextColor}`}
         >
           {props.tournamentName}
         </div>
