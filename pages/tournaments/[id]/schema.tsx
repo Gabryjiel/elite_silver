@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import TournamentNavigation from '../../../components/tournaments/TournamentNavigation';
-import Wrapper from '../../../components/layout/Wrapper';
+import { TournamentNavigation } from '../../../components/tournaments/TournamentNavigation';
+import { Wrapper } from '../../../components/layout/Wrapper';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { pluckTournamentIds, getTournament } from '../../../prisma/queries';
 import { mapToTournamentDTO } from '../../../prisma/dtos/mapToTournamentDTO';
 import { TournamentDTO } from '../../../types/dtos';
-import Breadcrumbs from '../../../components/layout/Breadcrumbs';
-import Header from '../../../components/layout/Header';
+import { Breadcrumbs } from '../../../components/layout/Breadcrumbs';
+import { Header } from '../../../components/layout/Header';
 import { BreadcrumbsLink } from '../../../components/layout/Breadcrumbs/Breadcrumbs';
 
 type Paths = {

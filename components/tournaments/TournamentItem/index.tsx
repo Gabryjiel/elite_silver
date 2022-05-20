@@ -1,1 +1,1 @@
-export { TournamentItem as default } from './TournamentItem';
+export * from './TournamentItem';

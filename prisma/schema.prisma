@@ -9,14 +9,12 @@ datasource db {
 
 model Ban {
 
-  matchId    Int @map("ban_mat_id")
-  playerId   Int @map("ban_pla_id")
+  id         Int @id @default(autoincrement()) @map("ban_id")
+  playerMatchId   Int @map("ban_plm_id")
   championId Int @map("ban_cha_id")
 
-  match    Match    @relation(fields: [matchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   champion Champion @relation(fields: [championId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  player   Player   @relation(fields: [playerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  @@id([matchId, playerId, championId])
+  playerMatch   PlayerMatch   @relation(fields: [playerMatchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   @@map("bans")
 }
 
@@ -54,13 +52,13 @@ model Match {
 
   tournament    Tournament    @relation(fields: [tournamentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stage         Stage         @relation(fields: [stageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  bans          Ban[]
   playerMatches PlayerMatch[]
   @@map("matches")
 }
 
 model PlayerMatch {
 
+  id         Int  @id @default(autoincrement()) @map("plm_id")
   matchId    Int  @map("plm_mat_id")
   playerId   Int  @map("plm_pla_id")
   championId Int? @map("plm_cha_id")
@@ -70,7 +68,7 @@ model PlayerMatch {
   champion Champion? @relation(fields: [championId], references: [id])
   player   Player    @relation(fields: [playerId], references: [id])
   match    Match     @relation(fields: [matchId], references: [id])
-  @@id([matchId, playerId])
+  bans Ban[]
   @@map("players_matches")
 }
 
@@ -81,7 +79,6 @@ model Player {
   rankId Int?    @map("pla_rnk_id")
 
   rank          Rank?         @relation(fields: [rankId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  bans          Ban[]
   playerMatches PlayerMatch[]
   @@map("players")
 }

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import TournamentNavigation from '../../../components/tournaments/TournamentNavigation';
-import Wrapper from '../../../components/layout/Wrapper';
+import { TournamentNavigation } from '../../../components/tournaments/TournamentNavigation';
+import { Wrapper } from '../../../components/layout/Wrapper';
 import {
   getPlayersFromTournament,
   getTournament,
@@ -12,14 +12,14 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { getWaywinIcon } from '../../../lib/image.helpers';
 import { getWaywinTooltip } from '../../../lib/tooltip.helpers';
-import PlayerCard from '../../../components/PlayerCard';
+import { PlayerCard } from '../../../components/PlayerCard/PlayerCard';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { TournamentDTO } from '../../../types/dtos';
 import { mapToTournamentDTO } from '../../../prisma/dtos/mapToTournamentDTO';
-import Header from '../../../components/layout/Header';
-import SearchBox from '../../../components/SearchBox';
-import SearchPlayerItem from '../../../components/SearchPlayerItem';
-import ChampionIcon from '../../../components/ChampionIcon';
+import { Header } from '../../../components/layout/Header';
+import { SearchBox } from '../../../components/SearchBox';
+import { SearchPlayerItem } from '../../../components/SearchPlayerItem';
+import { ChampionIcon } from '../../../components/ChampionIcon';
 
 type Paths = {
   id: string;

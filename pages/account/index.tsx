@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Wrapper from '../../components/layout/Wrapper';
+import { Wrapper } from '../../components/layout/Wrapper';
 
 export default function Account() {
   return (

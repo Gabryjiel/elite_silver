@@ -2,9 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import cloudJpg from '../../../public/images/clouds.jpg';
 import { TournamentIndexDTO } from '../../../types/tournament.dto';
-import MdGroup from '../../icons/MdGroup';
-import GiDuel from '../../icons/GiDuel';
-
+import { MdGroup, GiDuel } from '../../icons';
 interface Props {
   tournament: TournamentIndexDTO;
 }

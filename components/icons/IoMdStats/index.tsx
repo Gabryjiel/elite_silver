@@ -1,1 +1,1 @@
-export { IoMdStats as default } from './IoMdStats';
+export * from './IoMdStats';

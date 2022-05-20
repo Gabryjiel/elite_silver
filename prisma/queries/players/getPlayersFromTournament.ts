@@ -95,6 +95,7 @@ function getUniqueChampions(player: CustomPlayer) {
         count: 1,
       };
     })
+    .filter((pm) => pm.name)
     .reduce((result, champion) => {
       const index = result.findIndex((ch) => ch.id === champion.id);
 

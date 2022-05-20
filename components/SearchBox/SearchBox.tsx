@@ -3,6 +3,8 @@ import { Dispatch, SetStateAction } from 'react';
 interface Props {
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 export function SearchBox(props: Props) {
@@ -17,6 +19,8 @@ export function SearchBox(props: Props) {
       placeholder="Szukaj"
       value={props.search}
       onChange={onChange}
+      onFocus={props.onFocus}
+      onBlur={props.onBlur}
     />
   );
 }

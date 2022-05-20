@@ -1,1 +1,1 @@
-export { GiDuel as default } from './GiDuel';
+export * from './GiDuel';

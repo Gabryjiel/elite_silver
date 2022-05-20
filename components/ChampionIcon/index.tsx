@@ -1,1 +1,1 @@
-export { ChampionIcon as default } from './ChampionIcon';
+export * from './ChampionIcon';

@@ -1,1 +1,1 @@
-export { MdGroup as default } from './MdGroup';
+export * from './MdGroup';

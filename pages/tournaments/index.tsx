@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import { GetStaticProps } from 'next/types';
 import { useState } from 'react';
-import Breadcrumbs from '../../components/layout/Breadcrumbs';
+import { Breadcrumbs } from '../../components/layout/Breadcrumbs';
 import { BreadcrumbsLink } from '../../components/layout/Breadcrumbs/Breadcrumbs';
-import Header from '../../components/layout/Header';
-import Wrapper from '../../components/layout/Wrapper';
-import TournamentItem from '../../components/tournaments/TournamentItem';
+import { Header } from '../../components/layout/Header';
+import { Wrapper } from '../../components/layout/Wrapper';
+import { TournamentItem } from '../../components/tournaments/TournamentItem';
 import { getTournaments } from '../../prisma/queries';
 import { TournamentIndexDTO } from '../../types/tournament.dto';
 

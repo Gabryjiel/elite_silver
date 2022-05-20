@@ -1,1 +1,1 @@
-export { IconBar as default } from './IconBar';
+export * from './IconBar';

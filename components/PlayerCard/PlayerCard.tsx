@@ -1,16 +1,17 @@
 import Image from 'next/image';
 import { getCardColorFromPlacement } from './getCardColorFromPlacement';
-import { getSplash } from '../lib/image.helpers';
-import { ReturnPlayer } from '../prisma/queries';
+import { getSplash } from '../../lib/image.helpers';
+import { ReturnPlayer } from '../../prisma/queries';
 
 type PlayerCardProps = {
   tournamentName: string;
   player: ReturnPlayer;
 };
 
-export default function PlayerCard(props: PlayerCardProps) {
+export function PlayerCard(props: PlayerCardProps) {
   const colors = getCardColorFromPlacement(props.player.placement);
-  const splashArt = getSplash(props.player.champions[0].name);
+  const championName = props.player.champions.at(0)?.name ?? '';
+  const splashArt = getSplash(championName);
 
   return (
     <div
@@ -24,7 +25,7 @@ export default function PlayerCard(props: PlayerCardProps) {
           layout="fill"
           objectFit="cover"
           objectPosition="center"
-          alt={props.player.champions[0].name}
+          alt={championName}
           src={splashArt}
         />
       </div>

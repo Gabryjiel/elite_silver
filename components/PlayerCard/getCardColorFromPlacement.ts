@@ -1,4 +1,4 @@
-import { PlayerPlacement } from '../types/types';
+import { PlayerPlacement } from '../../types/types';
 
 export function getCardColorFromPlacement(placement: PlayerPlacement) {
   const colors = {

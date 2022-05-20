@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import AFillTrophy from '../../icons/AFillTrophy';
-import IoMdStats from '../../icons/IoMdStats';
-import MdGroup from '../../icons/MdGroup';
+import { AFillTrophy, IoMdStats, MdGroup } from '../../icons/';
 
 export function IconBar() {
   const router = useRouter();

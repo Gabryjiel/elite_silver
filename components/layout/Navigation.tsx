@@ -9,14 +9,15 @@ const NavBox = (props: any) => {
   return (
     <Link href={props.href} passHref>
       <a
-        className={`my-2 flex h-16 w-64 items-center rounded-xl bg-stone-800 indent-6 text-xl hover:brightness-125 ${active}`}>
+        className={`my-2 flex h-16 w-64 items-center rounded-xl bg-stone-800 indent-6 text-xl hover:brightness-125 ${active}`}
+      >
         {props.children}
       </a>
     </Link>
   );
 };
 
-export default function Navigation() {
+export function Navigation() {
   const router = useRouter();
 
   const routes = [

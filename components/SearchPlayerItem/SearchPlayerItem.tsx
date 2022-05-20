@@ -4,7 +4,7 @@ interface Props {
   onClick: () => void;
 }
 
-export function SetPlayerItem(props: Props) {
+export function SearchPlayerItem(props: Props) {
   return (
     <div
       onClick={props.onClick}

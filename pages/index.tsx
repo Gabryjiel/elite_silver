@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import Wrapper from 'components/layout/Wrapper';
-import Header from '../components/layout/Header';
-import Breadcrumbs from '../components/layout/Breadcrumbs';
+import { Wrapper } from 'components/layout/Wrapper';
+import { Header } from '../components/layout/Header';
+import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { BreadcrumbsLink } from '../components/layout/Breadcrumbs/Breadcrumbs';
 import { GetStaticProps } from 'next/types';
 

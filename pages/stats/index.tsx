@@ -2,8 +2,8 @@ import Head from 'next/head';
 import { GetStaticProps } from 'next/types';
 import Breadcrumbs from '../../components/layout/Breadcrumbs';
 import { BreadcrumbsLink } from '../../components/layout/Breadcrumbs/Breadcrumbs';
-import Header from '../../components/layout/Header';
-import Wrapper from '../../components/layout/Wrapper';
+import { Header } from '../../components/layout/Header';
+import { Wrapper } from '../../components/layout/Wrapper';
 
 interface Props {
   breadcrumbsLinks: BreadcrumbsLink[];

@@ -1,1 +1,1 @@
-export { AFillTrophy as default } from './AFillTrophy';
+export * from './AFillTrophy';

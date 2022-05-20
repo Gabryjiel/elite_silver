@@ -1,13 +1,23 @@
 import Head from 'next/head';
-import TournamentNavigation from '../../../components/tournaments/TournamentNavigation';
-import Wrapper from '../../../components/layout/Wrapper';
-import { pluckTournamentIds, getTournament } from '../../../prisma/queries';
+import { TournamentNavigation } from '../../../components/tournaments/TournamentNavigation';
+import { Wrapper } from '../../../components/layout/Wrapper';
+import {
+  pluckTournamentIds,
+  getTournament,
+  getMatchesFromTournament,
+  GetMatchesFromTournamentT,
+} from '../../../prisma/queries';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { TournamentDTO } from '../../../types/dtos';
 import { mapToTournamentDTO } from '../../../prisma/dtos/mapToTournamentDTO';
 import { BreadcrumbsLink } from '../../../components/layout/Breadcrumbs/Breadcrumbs';
-import Breadcrumbs from '../../../components/layout/Breadcrumbs';
-import Header from '../../../components/layout/Header';
+import { Breadcrumbs } from '../../../components/layout/Breadcrumbs';
+import { Header } from '../../../components/layout/Header';
+import { SearchBox } from '../../../components/SearchBox';
+import { useState } from 'react';
+import { MatchListItem } from '../../../components/MatchListItem';
+import { ArrayElement } from '../../../types/utils';
+import { MatchDisplay } from '../../../components/MatchDisplay';
 
 type Paths = {
   id: string;
@@ -16,9 +26,59 @@ type Paths = {
 interface Props {
   breadcrumbsLinks: BreadcrumbsLink[];
   tournament: TournamentDTO;
+  matches: GetMatchesFromTournamentT;
 }
 
 export default function TournamentMatches(props: Props) {
+  const [search, setSearch] = useState('');
+  const [selected, setSelected] =
+    useState<ArrayElement<GetMatchesFromTournamentT> | null>(null);
+
+  const matches = props.matches.filter((match) => {
+    return [
+      match.id,
+      match.stage.name,
+      match.waywin,
+      match.winside,
+      ...match.playerMatches.flatMap((pm) => [
+        pm.player.name,
+        pm.champion?.name ?? '',
+        ...pm.bans.flatMap((b) => [b.champion.name, b.champion.slug]),
+      ]),
+    ]
+      .join('')
+      .toLowerCase()
+      .includes(search.toLowerCase());
+  });
+
+  const selectAnotherMatch = (direction: 'PREV' | 'NEXT') => {
+    const matchIds = matches.map((match) => match.id);
+    const currentIndex = matchIds.findIndex((id) => id === selected?.id);
+    const add = direction === 'PREV' ? -1 : 1;
+    const nextSelected = matches[currentIndex + add];
+
+    if (nextSelected) {
+      setSelected(nextSelected);
+    }
+  };
+
+  const selectPrevMatch = () => selectAnotherMatch('PREV');
+  const selectNextMatch = () => selectAnotherMatch('NEXT');
+
+  const isTherePrevMatch = (() => {
+    const matchIds = matches.map((match) => match.id);
+    const currentIndex = matchIds.findIndex((id) => id === selected?.id);
+
+    return Boolean(matches[currentIndex - 1]);
+  })();
+
+  const isThereNextMatch = (() => {
+    const matchIds = matches.map((match) => match.id);
+    const currentIndex = matchIds.findIndex((id) => id === selected?.id);
+
+    return Boolean(matches[currentIndex + 1]);
+  })();
+
   return (
     <>
       <Head>
@@ -36,6 +96,67 @@ export default function TournamentMatches(props: Props) {
           name={props.tournament.name}
           winner={'Hauche'}
         />
+
+        <div className="flex w-full justify-evenly">
+          {selected && (
+            <button
+              className={`grid place-items-center text-xl text-stone-300 ${
+                isTherePrevMatch
+                  ? 'hover:cursor-pointer hover:underline'
+                  : 'text-stone-600'
+              }`}
+              onClick={selectPrevMatch}
+              onKeyPress={selectPrevMatch}
+              tabIndex={-1}
+              disabled={!isTherePrevMatch}
+            >
+              Poprzedni
+            </button>
+          )}
+          <div className="w-1/3">
+            <SearchBox
+              search={search}
+              setSearch={setSearch}
+              onFocus={() => setSelected(null)}
+            />
+          </div>
+          {selected && (
+            <button
+              className={`grid place-items-center text-xl text-stone-300 ${
+                isThereNextMatch
+                  ? 'hover:cursor-pointer hover:underline'
+                  : 'text-stone-600'
+              }`}
+              onClick={selectNextMatch}
+              onKeyPress={selectNextMatch}
+              tabIndex={-1}
+              disabled={!isThereNextMatch}
+            >
+              Następny
+            </button>
+          )}
+        </div>
+
+        <div className="flex-1 overflow-hidden py-8">
+          {selected === null ? (
+            <div className="flex h-full flex-col items-center justify-start gap-8 overflow-y-scroll">
+              {matches.map((match) => {
+                const select = () => setSelected(match);
+
+                return (
+                  <MatchListItem
+                    key={match.id}
+                    match={match}
+                    onClick={select}
+                    onKeyPress={select}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <MatchDisplay match={selected} />
+          )}
+        </div>
       </Wrapper>
     </>
   );
@@ -57,6 +178,7 @@ export const getStaticPaths: GetStaticPaths<Paths> = async () => {
 export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
   const tournamentId = parseInt(context.params?.id ?? '0');
   const tournament = await getTournament(tournamentId);
+  const matches = await getMatchesFromTournament(tournamentId);
 
   if (tournament == null) {
     return {
@@ -67,6 +189,7 @@ export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
   return {
     props: {
       tournament: mapToTournamentDTO(tournament),
+      matches,
       breadcrumbsLinks: [
         { label: 'Strona główna', href: '/' },
         { label: 'Turnieje', href: '/tournaments' },

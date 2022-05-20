@@ -7,7 +7,7 @@ type TournamentNavItemProps = {
   className?: string;
 };
 
-export default function TournamentNavItem(props: TournamentNavItemProps) {
+export function TournamentNavItem(props: TournamentNavItemProps) {
   const active = props.path === props.href ? 'text-lime-600' : 'text-stone-400';
 
   return (
