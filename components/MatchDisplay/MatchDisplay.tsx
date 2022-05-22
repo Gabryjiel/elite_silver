@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getLoading, getIcon, getWaywinIcon } from '../../lib/image.helpers';
+import { getWaywinTooltip } from '../../lib/tooltip.helpers';
 
 import { GetMatchesFromTournamentT } from '../../prisma/queries';
 import { ArrayElement } from '../../types/utils';
@@ -73,6 +74,7 @@ export function MatchDisplay(props: Props) {
           <span className="relative h-1/4 w-1/3 text-3xl">
             <Image
               src={getWaywinIcon(match.waywin)}
+              title={getWaywinTooltip(match.waywin)}
               alt="Waywin"
               layout="fill"
               objectFit="contain"

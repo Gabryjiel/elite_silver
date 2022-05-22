@@ -1,3 +1,5 @@
+import prisma from '../../prisma';
+
 import { TournamentIndexDTO } from '../../../types/tournament.dto';
 
 export async function getTournaments(): Promise<TournamentIndexDTO[]> {

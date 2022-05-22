@@ -7,31 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Ban {
-
-  id         Int @id @default(autoincrement()) @map("ban_id")
-  playerMatchId   Int @map("ban_plm_id")
-  championId Int @map("ban_cha_id")
-
-  champion Champion @relation(fields: [championId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  playerMatch   PlayerMatch   @relation(fields: [playerMatchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  @@map("bans")
-}
-
-model Champion {
-
-  id   Int    @id @default(autoincrement()) @map("cha_id")
-  name String @map("cha_name") @db.VarChar(32)
-  slug String @map("cha_slug") @db.VarChar(16)
-
-  bans          Ban[]
-  playerMatches PlayerMatch[]
-  @@map("champions")
-}
-
 enum Side {
   BLUE
   RED
+  NONE
 }
 
 enum Waywin {
@@ -39,48 +18,6 @@ enum Waywin {
   CS
   TOWER
   SURRENDER
-}
-
-model Match {
-
-  id           Int    @id @default(autoincrement()) @map("mat_id")
-  tournamentId Int    @map("mat_tou_id")
-  stageId      Int    @map("mat_stg_id")
-  waywin       Waywin @default(KILL) @map("mat_way_id")
-  winside      Side   @default(BLUE) @map("mat_winside")
-  duration     Int?   @default(0) @map("mat_duration")
-
-  tournament    Tournament    @relation(fields: [tournamentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stage         Stage         @relation(fields: [stageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  playerMatches PlayerMatch[]
-  @@map("matches")
-}
-
-model PlayerMatch {
-
-  id         Int  @id @default(autoincrement()) @map("plm_id")
-  matchId    Int  @map("plm_mat_id")
-  playerId   Int  @map("plm_pla_id")
-  championId Int? @map("plm_cha_id")
-  cs         Int? @default(0) @map("plm_cs")
-  side       Side @default(BLUE) @map("plm_side")
-
-  champion Champion? @relation(fields: [championId], references: [id])
-  player   Player    @relation(fields: [playerId], references: [id])
-  match    Match     @relation(fields: [matchId], references: [id])
-  bans Ban[]
-  @@map("players_matches")
-}
-
-model Player {
-
-  id     Int     @id @default(autoincrement()) @map("pla_id")
-  name   String? @map("pla_name") @db.VarChar(32)
-  rankId Int?    @map("pla_rnk_id")
-
-  rank          Rank?         @relation(fields: [rankId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  playerMatches PlayerMatch[]
-  @@map("players")
 }
 
 model Rank {
@@ -101,6 +38,18 @@ model Stage {
   @@map("stages")
 }
 
+model User {
+
+  id       Int     @id @default(autoincrement()) @map("usr_id")
+  login    String  @map("usr_name") @db.VarChar(64)
+  password String? @map("usr_password") @db.VarChar(128)
+  email    String? @map("usr_email") @db.VarChar(128)
+
+
+  players Player[]
+  @@map("users")
+}
+
 model Tournament {
 
   id          Int      @id @default(autoincrement()) @map("tou_id")
@@ -111,6 +60,75 @@ model Tournament {
   createdAt   DateTime @default(now()) @map("tou_created_at") @db.Timestamp() @ignore
   updatedAt   DateTime @default(now()) @updatedAt() @map("tou_updated_at") @db.Timestamp(1) @ignore
 
+  players Player[]
   matches Match[]
   @@map("tournaments")
+}
+
+model Champion {
+
+  id   Int    @id @default(autoincrement()) @map("cha_id")
+  name String @map("cha_name") @db.VarChar(32)
+  slug String @map("cha_slug") @db.VarChar(16)
+
+  bans          Ban[]
+  playerMatches PlayerMatch[]
+  @@map("champions")
+}
+
+model Match {
+
+  id           Int    @id @default(autoincrement()) @map("mat_id")
+  tournamentId Int    @map("mat_tou_id")
+  stageId      Int    @map("mat_stg_id")
+  waywin       Waywin @default(KILL) @map("mat_way_id")
+  winside      Side   @default(BLUE) @map("mat_winside")
+  duration     Int?   @default(0) @map("mat_duration")
+
+  tournament    Tournament    @relation(fields: [tournamentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stage         Stage         @relation(fields: [stageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  playerMatches PlayerMatch[]
+  @@map("matches")
+}
+
+model Player {
+
+  id           Int     @id @default(autoincrement()) @map("pla_id")
+  name         String? @map("pla_name") @db.VarChar(32)
+  rankId       Int?    @map("pla_rnk_id")
+  userId       Int     @map("pla_usr_id")
+  tournamentId Int     @map("pla_tou_id")
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rank          Rank?         @relation(fields: [rankId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tournament    Tournament    @relation(fields: [tournamentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  playerMatches PlayerMatch[]
+  @@map("players")
+}
+
+model PlayerMatch {
+
+  id         Int  @id @default(autoincrement()) @map("plm_id")
+  matchId    Int  @map("plm_mat_id")
+  playerId   Int  @map("plm_pla_id")
+  championId Int? @map("plm_cha_id")
+  cs         Int? @default(0) @map("plm_cs")
+  side       Side @default(BLUE) @map("plm_side")
+
+  champion Champion? @relation(fields: [championId], references: [id])
+  player   Player    @relation(fields: [playerId], references: [id])
+  match    Match     @relation(fields: [matchId], references: [id])
+  bans     Ban[]
+  @@map("players_matches")
+}
+
+model Ban {
+
+  id            Int @id @default(autoincrement()) @map("ban_id")
+  playerMatchId Int @map("ban_plm_id")
+  championId    Int @map("ban_cha_id")
+
+  champion    Champion    @relation(fields: [championId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  playerMatch PlayerMatch @relation(fields: [playerMatchId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  @@map("bans")
 }

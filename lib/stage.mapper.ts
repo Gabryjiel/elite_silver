@@ -67,3 +67,22 @@ export function getPlayerPlacement(
       return 'Faza grupowa';
   }
 }
+
+export function getStageBorderColor(stageName: string | null) {
+  switch (stageName) {
+    case 'Final':
+      return 'border-yellow-600';
+    case '3rd':
+      return 'border-orange-900';
+    case '1/2':
+      return 'border-gray-600';
+    case '1/4':
+      return 'border-green-900';
+    case '1/8':
+      return 'border-violet-500';
+    case '1/16':
+      return 'border-red-900';
+    default:
+      return 'border-slate-500';
+  }
+}

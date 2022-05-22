@@ -80,7 +80,7 @@ function getPlayers(tournamentId: number) {
       },
     },
     orderBy: {
-      id: 'asc',
+      name: 'asc',
     },
   });
 }

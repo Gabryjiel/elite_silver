@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getIcon } from '../../lib/image.helpers';
+import { Side } from '@prisma/client';
 
 interface Props {
   href: string;
-  side: 'RED' | 'BLUE';
+  side: Side;
   championName: string;
   grayscaled?: boolean;
 }

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -28,6 +28,10 @@
     "*.config.js"
   ],
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+    "prisma/data"
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }
