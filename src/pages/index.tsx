@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Wrapper } from 'components/layout/Wrapper';
+import { Wrapper } from 'src/components/layout/Wrapper';
 import { Header } from '../components/layout/Header';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { BreadcrumbsLink } from '../components/layout/Breadcrumbs/Breadcrumbs';

@@ -18,20 +18,14 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".",
+    "baseUrl": "."
   },
-  "include": [
-    "types/global.d.ts",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "*.config.js"
-  ],
   "exclude": [
-    "node_modules",
-    "prisma/data"
+    "node_modules"
   ],
-  "ts-node": {
-    "esm": true
-  }
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }

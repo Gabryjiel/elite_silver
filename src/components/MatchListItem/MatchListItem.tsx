@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
 import { getStageBorderColor } from '../../lib/stage.mapper';
-import { GetMatchesFromTournamentT } from '../../prisma/queries';
+import { GetMatchesFromTournamentT } from '../../../prisma/queries';
 import { ArrayElement } from '../../types/utils';
 
 interface Props

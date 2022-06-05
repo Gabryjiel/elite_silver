@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getLoading, getIcon, getWaywinIcon } from '../../lib/image.helpers';
 import { getWaywinTooltip } from '../../lib/tooltip.helpers';
 
-import { GetMatchesFromTournamentT } from '../../prisma/queries';
+import { GetMatchesFromTournamentT } from '../../../prisma/queries';
 import { ArrayElement } from '../../types/utils';
 
 interface Props {

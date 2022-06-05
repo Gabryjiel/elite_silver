@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getMatchesFromTournament } from '../../prisma/queries';
+import { getMatchesFromTournament } from '../../../prisma/queries';
 
 export default async function handler(
   req: NextApiRequest,

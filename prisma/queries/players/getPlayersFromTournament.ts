@@ -1,7 +1,7 @@
 import { Champion, Player, Side, Stage, Waywin } from '@prisma/client';
 import prisma from '../../prisma';
-import { ArrayElement } from '../../../types/utils';
-import { PlayerPlacement } from '../../../types/types';
+import { ArrayElement } from '../../../src/types/utils';
+import { PlayerPlacement } from '../../../src/types/types';
 
 type CustomPlayer = ArrayElement<Awaited<ReturnType<typeof getPlayers>>>;
 

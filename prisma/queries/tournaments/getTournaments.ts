@@ -1,6 +1,6 @@
 import prisma from '../../prisma';
 
-import { TournamentIndexDTO } from '../../../types/tournament.dto';
+import { TournamentIndexDTO } from '../../../src/types/tournament.dto';
 
 export async function getTournaments(): Promise<TournamentIndexDTO[]> {
   const result = await prisma.tournament.findMany({

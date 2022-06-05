@@ -1,5 +1,5 @@
 import { Tournament } from '@prisma/client';
-import { TournamentDTO } from '../../types/dtos';
+import { TournamentDTO } from '../../src/types/dtos';
 
 export function mapToTournamentDTO(tournament: Tournament): TournamentDTO {
   return {

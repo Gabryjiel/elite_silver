@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { getCardColorFromPlacement } from './getCardColorFromPlacement';
 import { getSplash } from '../../lib/image.helpers';
-import { ReturnPlayer } from '../../prisma/queries';
+import { ReturnPlayer } from '../../../prisma/queries';
 
 type PlayerCardProps = {
   tournamentName: string;

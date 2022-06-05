@@ -6,10 +6,10 @@ import {
   getTournament,
   getMatchesFromTournament,
   GetMatchesFromTournamentT,
-} from '../../../prisma/queries';
+} from '../../../../prisma/queries';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { TournamentDTO } from '../../../types/dtos';
-import { mapToTournamentDTO } from '../../../prisma/dtos/mapToTournamentDTO';
+import { mapToTournamentDTO } from '../../../../prisma/dtos/mapToTournamentDTO';
 import { BreadcrumbsLink } from '../../../components/layout/Breadcrumbs/Breadcrumbs';
 import { Breadcrumbs } from '../../../components/layout/Breadcrumbs';
 import { Header } from '../../../components/layout/Header';

@@ -7,7 +7,7 @@ import {
   getTournament,
   pluckTournamentIds,
   ReturnPlayer,
-} from '../../../prisma/queries';
+} from '../../../../prisma/queries';
 import { useState } from 'react';
 import Link from 'next/link';
 import { getWaywinIcon } from '../../../lib/image.helpers';
@@ -15,7 +15,7 @@ import { getWaywinTooltip } from '../../../lib/tooltip.helpers';
 import { PlayerCard } from '../../../components/PlayerCard/PlayerCard';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { TournamentDTO } from '../../../types/dtos';
-import { mapToTournamentDTO } from '../../../prisma/dtos/mapToTournamentDTO';
+import { mapToTournamentDTO } from '../../../../prisma/dtos/mapToTournamentDTO';
 import { Header } from '../../../components/layout/Header';
 import { SearchBox } from '../../../components/SearchBox';
 import { SearchPlayerItem } from '../../../components/SearchPlayerItem';
