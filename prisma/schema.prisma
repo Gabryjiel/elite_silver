@@ -73,19 +73,8 @@ model Game {
   tournament  Tournament    @relation(fields: [tournamentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stage       Stage         @relation(fields: [stageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   matches     Match[]
-  playerGames PlayerGames[]
+  players     Player[]
   @@map("games")
-}
-
-model PlayerGames {
-
-  id       Int @id @default(autoincrement()) @map("plg_id")
-  gameId   Int @map("plg_gam_id")
-  playerId Int @map("plg_pla_id")
-
-  game   Game   @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  player Player @relation(fields: [playerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  @@map("player_games")
 }
 
 model Champion {
@@ -106,8 +95,9 @@ model Match {
   waywin   Waywin @default(KILL) @map("mat_way_id")
   winside  Side   @default(BLUE) @map("mat_winside")
   duration Int?   @default(0) @map("mat_duration")
+  videoUrl String? @map("mat_video_url")
 
-  tournament    Game          @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  game    Game          @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   playerMatches PlayerMatch[]
   @@map("matches")
 }
@@ -124,7 +114,7 @@ model Player {
   rank          Rank?         @relation(fields: [rankId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   tournament    Tournament    @relation(fields: [tournamentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   playerMatches PlayerMatch[]
-  playerGames   PlayerGames[]
+  games   Game[]
   @@map("players")
 }
 

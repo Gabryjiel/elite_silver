@@ -26,6 +26,7 @@
   "include": [
     "next-env.d.ts",
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "prisma/data/ts/data/*.ts"
   ]
 }
