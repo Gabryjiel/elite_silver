@@ -2,6 +2,10 @@ import prisma from '../../prisma';
 
 import { TournamentIndexDTO } from '../../../src/types/tournament.dto';
 
+function formatDate(date: Date) {
+  return date.toISOString().slice(0, 10).split('-').reverse().join('.');
+}
+
 export async function getTournaments(): Promise<TournamentIndexDTO[]> {
   const result = await prisma.tournament.findMany({
     select: {
@@ -10,9 +14,14 @@ export async function getTournaments(): Promise<TournamentIndexDTO[]> {
       description: true,
       startDate: true,
       endDate: true,
-      matches: {
-        include: {
-          playerMatches: true,
+      players: true,
+      games: {
+        select: {
+          matches: {
+            include: {
+              playerMatches: true,
+            },
+          },
         },
       },
     },
@@ -21,23 +30,10 @@ export async function getTournaments(): Promise<TournamentIndexDTO[]> {
   const mapped = result.map((tournament) => ({
     id: tournament.id,
     name: tournament.name,
-    startDate: tournament.startDate
-      ?.toISOString()
-      .slice(0, 10)
-      .split('-')
-      .reverse()
-      .join('.'),
-    endDate: tournament.endDate
-      ?.toISOString()
-      .slice(0, 10)
-      .split('-')
-      .reverse()
-      .join('.'),
-    matchCount: tournament.matches.length,
-    playerCount: tournament.matches
-      .map((item) => item.playerMatches.map((item) => item.playerId))
-      .flat()
-      .filter((v, i, a) => a.indexOf(v) === i).length,
+    startDate: formatDate(tournament.startDate),
+    endDate: formatDate(tournament.endDate),
+    matchCount: tournament.games.length,
+    playerCount: tournament.players.length,
   }));
 
   return mapped;
