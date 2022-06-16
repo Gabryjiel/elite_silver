@@ -13,7 +13,7 @@ interface Props
 
 export function MatchListItem(props: Props) {
   const { match, ...divProps } = props;
-  const borderColor = getStageBorderColor(match.stage.name);
+  const borderColor = getStageBorderColor(match.game.stage.name);
 
   return (
     <div

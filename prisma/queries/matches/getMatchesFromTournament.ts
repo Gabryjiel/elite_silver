@@ -8,7 +8,11 @@ export async function getMatchesFromTournament(tournamentId: number) {
   const matches = await prisma.match.findMany({
     select: {
       id: true,
-      stage: true,
+      game: {
+        include: {
+          stage: true,
+        },
+      },
       waywin: true,
       winside: true,
       duration: true,
@@ -29,7 +33,9 @@ export async function getMatchesFromTournament(tournamentId: number) {
       },
     },
     where: {
-      tournamentId,
+      game: {
+        tournamentId,
+      },
     },
     orderBy: {
       id: 'asc',

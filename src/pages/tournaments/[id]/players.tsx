@@ -30,6 +30,38 @@ interface Props {
   players: ReturnPlayer[];
 }
 
+export const getStaticPaths: GetStaticPaths<Paths> = async () => {
+  const tournaments = await pluckTournamentIds();
+
+  return {
+    fallback: false,
+    paths: tournaments.map(({ id }) => ({
+      params: {
+        id: id.toString(),
+      },
+    })),
+  };
+};
+
+export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
+  const tournamentId = parseInt(context.params?.id ?? '0');
+  const tournament = await getTournament(tournamentId);
+  const players = await getPlayersFromTournament(tournamentId);
+
+  if (tournament == null) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      tournament: mapToTournamentDTO(tournament),
+      players,
+    },
+  };
+};
+
 export default function TournamentPlayers(props: Props) {
   const [player, setPlayer] = useState<ReturnPlayer | null>(null);
   const [search, setSearch] = useState('');
@@ -164,35 +196,3 @@ export default function TournamentPlayers(props: Props) {
     </>
   );
 }
-
-export const getStaticPaths: GetStaticPaths<Paths> = async () => {
-  const tournaments = await pluckTournamentIds();
-
-  return {
-    fallback: false,
-    paths: tournaments.map(({ id }) => ({
-      params: {
-        id: id.toString(),
-      },
-    })),
-  };
-};
-
-export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
-  const tournamentId = parseInt(context.params?.id ?? '0');
-  const tournament = await getTournament(tournamentId);
-  const players = await getPlayersFromTournament(tournamentId);
-
-  if (tournament == null) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      tournament: mapToTournamentDTO(tournament),
-      players,
-    },
-  };
-};

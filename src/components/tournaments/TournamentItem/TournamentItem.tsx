@@ -27,13 +27,13 @@ export function TournamentItem({ tournament }: Props) {
           </div>
           <div className="mb-4 ml-4 flex h-8 gap-2 text-lg">
             <Link href={`/tournaments/${tournament.id}/players`} passHref>
-              <a className="flex w-14 items-center justify-center rounded-lg border-2 border-stone-500 text-stone-300 hover:border-stone-200">
+              <a className="flex w-16 items-center justify-center rounded-lg border-2 border-stone-500 text-stone-300 hover:border-stone-200">
                 <MdGroup />
                 <span>{tournament.playerCount}</span>
               </a>
             </Link>
             <Link href={`/tournaments/${tournament.id}/matches`} passHref>
-              <a className="flex w-14 items-center justify-center rounded-lg border-2 border-stone-500 text-stone-300 hover:border-stone-200">
+              <a className="flex w-16 items-center justify-center rounded-lg border-2 border-stone-500 text-stone-300 hover:border-stone-200">
                 <GiDuel />
                 <span>{tournament.matchCount}</span>
               </a>

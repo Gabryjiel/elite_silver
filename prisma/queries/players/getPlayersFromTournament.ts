@@ -2,6 +2,7 @@ import { Champion, Player, Side, Stage, Waywin } from '@prisma/client';
 import prisma from '../../prisma';
 import { ArrayElement } from '../../../src/types/utils';
 import { PlayerPlacement } from '../../../src/types/types';
+import { notEmpty } from '../../../src/lib/functions';
 
 type CustomPlayer = ArrayElement<Awaited<ReturnType<typeof getPlayers>>>;
 
@@ -41,10 +42,6 @@ export interface ReturnPlayer {
   matches: CustomMatch[];
 }
 
-function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
-  return value !== null && value !== undefined;
-}
-
 function getPlayers(tournamentId: number) {
   return prisma.player.findMany({
     include: {
@@ -59,13 +56,19 @@ function getPlayers(tournamentId: number) {
                   champion: true,
                 },
               },
-              stage: true,
+              game: {
+                include: {
+                  stage: true,
+                },
+              },
             },
           },
         },
         where: {
           match: {
-            tournamentId: tournamentId,
+            game: {
+              tournamentId,
+            },
           },
         },
       },
@@ -74,7 +77,9 @@ function getPlayers(tournamentId: number) {
       playerMatches: {
         some: {
           match: {
-            tournamentId: tournamentId,
+            game: {
+              tournamentId,
+            },
           },
         },
       },
@@ -139,7 +144,7 @@ function getAllMatches(player: CustomPlayer): CustomMatch[] {
           player: opponent.player,
           side: opponent.side,
         },
-        stage: match.stage,
+        stage: match.game.stage,
         waywin: match.waywin,
         winside: match.winside,
         result: (match.winside === self.side ? 'WIN' : 'LOSS') as Result,
@@ -184,8 +189,8 @@ function getPlayerPlacement(player: CustomPlayer): PlayerPlacement {
       }
 
       return {
-        stageId: pm.match.stage.id,
-        stageName: pm.match.stage.name ?? '',
+        stageId: pm.match.game.stage.id,
+        stageName: pm.match.game.stage.name ?? '',
         didWin: self.side === pm.match.winside,
       };
     })
