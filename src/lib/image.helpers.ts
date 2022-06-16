@@ -20,7 +20,7 @@ function mapName(championName: string) {
 
 export function getSplash(championName?: string) {
   if (!championName) {
-    return 'http://placehold.jp/000000/00ff00/1280x720.jpg?text=404';
+    return 'http://placehold.jp/000000/00ff00/1280x720.jpg?text=?';
   }
 
   return `http://ddragon.leagueoflegends.com/cdn/img/champion/centered/${mapName(
