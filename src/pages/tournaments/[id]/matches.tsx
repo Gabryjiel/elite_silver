@@ -29,6 +29,43 @@ interface Props {
   matches: GetMatchesFromTournamentT;
 }
 
+export const getStaticPaths: GetStaticPaths<Paths> = async () => {
+  const tournaments = await pluckTournamentIds();
+
+  return {
+    fallback: false,
+    paths: tournaments.map(({ id }) => ({
+      params: {
+        id: id.toString(),
+      },
+    })),
+  };
+};
+
+export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
+  const tournamentId = parseInt(context.params?.id ?? '0');
+  const tournament = await getTournament(tournamentId);
+  const matches = await getMatchesFromTournament(tournamentId);
+
+  if (tournament == null) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      tournament: mapToTournamentDTO(tournament),
+      matches,
+      breadcrumbsLinks: [
+        { label: 'Strona główna', href: '/' },
+        { label: 'Turnieje', href: '/tournaments' },
+        { label: tournament.name, href: `/tournaments/${tournament.id}` },
+      ],
+    },
+  };
+};
+
 export default function TournamentMatches(props: Props) {
   const [search, setSearch] = useState('');
   const [selected, setSelected] =
@@ -37,7 +74,7 @@ export default function TournamentMatches(props: Props) {
   const matches = props.matches.filter((match) => {
     return [
       match.id,
-      match.stage.name,
+      match.game.stage.name,
       match.waywin,
       match.winside,
       ...match.playerMatches.flatMap((pm) => [
@@ -161,40 +198,3 @@ export default function TournamentMatches(props: Props) {
     </>
   );
 }
-
-export const getStaticPaths: GetStaticPaths<Paths> = async () => {
-  const tournaments = await pluckTournamentIds();
-
-  return {
-    fallback: false,
-    paths: tournaments.map(({ id }) => ({
-      params: {
-        id: id.toString(),
-      },
-    })),
-  };
-};
-
-export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
-  const tournamentId = parseInt(context.params?.id ?? '0');
-  const tournament = await getTournament(tournamentId);
-  const matches = await getMatchesFromTournament(tournamentId);
-
-  if (tournament == null) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      tournament: mapToTournamentDTO(tournament),
-      matches,
-      breadcrumbsLinks: [
-        { label: 'Strona główna', href: '/' },
-        { label: 'Turnieje', href: '/tournaments' },
-        { label: tournament.name, href: `/tournaments/${tournament.id}` },
-      ],
-    },
-  };
-};
