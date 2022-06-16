@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import { GetStaticProps } from 'next/types';
 import { useState } from 'react';
-import { Breadcrumbs } from '../../components/layout/Breadcrumbs';
-import { BreadcrumbsLink } from '../../components/layout/Breadcrumbs/Breadcrumbs';
 import { Header } from '../../components/layout/Header';
 import { Wrapper } from '../../components/layout/Wrapper';
 import { TournamentItem } from '../../components/tournaments/TournamentItem';
@@ -10,9 +8,18 @@ import { getTournaments } from '../../../prisma/queries';
 import { TournamentIndexDTO } from '../../types/tournament.dto';
 
 interface Props {
-  breadcrumbsLinks: BreadcrumbsLink[];
   tournaments: TournamentIndexDTO[];
 }
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const tournaments = await getTournaments();
+
+  return {
+    props: {
+      tournaments,
+    },
+  };
+};
 
 export default function Tournaments(props: Props) {
   const [search, setSearch] = useState('');
@@ -35,8 +42,8 @@ export default function Tournaments(props: Props) {
 
       <Wrapper>
         <Header />
-        <Breadcrumbs links={props.breadcrumbsLinks} />
-        <div className="flex flex-grow flex-col overflow-hidden p-4">
+
+        <div className="flex flex-1 flex-col overflow-hidden px-4">
           <div className="flex h-24 w-full items-center justify-between pt-4 sm:px-1 lg:px-32 2xl:px-32">
             <span className="text-6xl font-bold text-stone-300">Turnieje</span>
             <input
@@ -47,9 +54,11 @@ export default function Tournaments(props: Props) {
               onChange={onSeachChange}
             />
           </div>
+
           <div
             id="tournament-container"
-            className="mt-12 grid place-items-center gap-y-12 overflow-y-auto px-12 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+            className="mt-12 grid flex-1 place-items-start gap-y-12 overflow-y-auto px-12 pb-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+            style={{ scrollbarGutter: 'stable both-edges' }}
           >
             {filtered.map((tournament) => (
               <TournamentItem key={tournament.name} tournament={tournament} />
@@ -60,18 +69,3 @@ export default function Tournaments(props: Props) {
     </>
   );
 }
-
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const tournaments = await getTournaments();
-  const breadcrumbsLinks = [
-    { label: 'Strona główna', href: '/' },
-    { label: 'Turnieje', href: '/tournaments' },
-  ];
-
-  return {
-    props: {
-      tournaments,
-      breadcrumbsLinks,
-    },
-  };
-};
