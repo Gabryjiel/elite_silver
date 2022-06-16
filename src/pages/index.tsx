@@ -9,6 +9,16 @@ interface Props {
   breadcrumbsLinks: BreadcrumbsLink[];
 }
 
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const breadcrumbsLinks = [{ label: 'Strona główna', href: '/' }];
+
+  return {
+    props: {
+      breadcrumbsLinks,
+    },
+  };
+};
+
 export default function Index(props: Props) {
   return (
     <>
@@ -25,13 +35,3 @@ export default function Index(props: Props) {
     </>
   );
 }
-
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const breadcrumbsLinks = [{ label: 'Strona główna', href: '/' }];
-
-  return {
-    props: {
-      breadcrumbsLinks,
-    },
-  };
-};
