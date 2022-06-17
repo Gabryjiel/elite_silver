@@ -3,8 +3,8 @@ import { Wrapper } from '../../../components/layout/Wrapper';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { getUserById, pluckPlayerIds } from '../../../../prisma/queries';
 import { Header } from '../../../components/layout/Header';
-import { PageNavigation } from '../../../components/PageNavigation';
 import { useRouter } from 'next/router';
+import { PageHeader } from '../../../components/layout/PageHeader/PageHeader';
 
 type Paths = {
   id: string;
@@ -58,22 +58,15 @@ export default function PlayerIndex({ user }: Props) {
       <Wrapper>
         <Header />
 
-        <div className="flex h-16 w-full p-6">
-          <div className="w-1/3">
-            <span className="text-4xl font-bold text-stone-300">
-              {user?.name}
-            </span>
-          </div>
-
-          <PageNavigation
-            path={router.asPath}
-            items={[
-              { href: `/players/${user?.id}`, label: 'Statystyki' },
-              { href: `/players/${user?.id}/champions`, label: 'Bohaterowie' },
-              { href: `/players/${user?.id}/opponents`, label: 'Przeciwnicy' },
-            ]}
-          />
-        </div>
+        <PageHeader
+          text={user?.name ?? ''}
+          asPath={router.asPath}
+          navLinks={[
+            { href: `/players/${user?.id}`, label: 'Statystyki' },
+            { href: `/players/${user?.id}/champions`, label: 'Bohaterowie' },
+            { href: `/players/${user?.id}/opponents`, label: 'Przeciwnicy' },
+          ]}
+        />
       </Wrapper>
     </>
   );
