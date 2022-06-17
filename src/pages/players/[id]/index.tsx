@@ -3,6 +3,8 @@ import { Wrapper } from '../../../components/layout/Wrapper';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { getUserById, pluckPlayerIds } from '../../../../prisma/queries';
 import { Header } from '../../../components/layout/Header';
+import { PageNavigation } from '../../../components/PageNavigation';
+import { useRouter } from 'next/router';
 
 type Paths = {
   id: string;
@@ -43,6 +45,8 @@ export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
 };
 
 export default function PlayerIndex({ user }: Props) {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -61,11 +65,14 @@ export default function PlayerIndex({ user }: Props) {
             </span>
           </div>
 
-          <div className="flex w-2/3 items-center justify-center gap-2 text-stone-400">
-            <div>Statystyki</div>
-            <div>Bohaterowie</div>
-            <div>Przeciwnicy</div>
-          </div>
+          <PageNavigation
+            path={router.asPath}
+            items={[
+              { href: `/players/${user?.id}`, label: 'Statystyki' },
+              { href: `/players/${user?.id}/champions`, label: 'Bohaterowie' },
+              { href: `/players/${user?.id}/opponents`, label: 'Przeciwnicy' },
+            ]}
+          />
         </div>
       </Wrapper>
     </>
