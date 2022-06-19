@@ -6,15 +6,16 @@ import FlagSrc from '../public/images/flag.png';
 
 function mapName(championName: string) {
   switch (championName) {
-    case 'Tahm Kench':
-      return 'TahmKench';
-    case 'Lee Sin':
-      return 'LeeSin';
+    case 'Wukong':
+      return 'MonkeyKing';
     default:
       return championName
         .toLowerCase()
-        .replace(/[ ']/g, '')
-        .replace(/./, (c) => c.toUpperCase());
+        .replace(/'/g, '')
+        .replace(/\w{2,}/g, (match) =>
+          match.replace(/\w/, (m) => m.toUpperCase())
+        )
+        .replace(' ', '');
   }
 }
 

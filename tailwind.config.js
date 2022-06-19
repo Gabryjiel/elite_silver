@@ -48,6 +48,9 @@ module.exports = {
       aspectRatio: {
         card: '1 / 1.4',
       },
+      fontFamily: {
+        'imfell': ['"IM Fell Great Primer SC"', 'ui-sans-serif']
+      }
     },
   },
   plugins: [],

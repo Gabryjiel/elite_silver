@@ -10,6 +10,20 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+.flag {
+  width: 80px;
+  height: 395px;
+  clip-path: path('M 0 0 L 80 0, 80 395, 40 350, 0 395')
+}
+
+.flag-bg {
+  display: flex;
+  justify-content: center;
+  width: 90px;
+  height: 410px;
+  clip-path: path('M 0 0 L 90 0, 90 410, 45 360, 0 410');
+}
+
 a {
   color: inherit;
   text-decoration: none;

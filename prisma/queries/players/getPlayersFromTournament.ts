@@ -3,11 +3,15 @@ import prisma from '../../prisma';
 import { ArrayElement } from '../../../src/types/utils';
 import { PlayerPlacement } from '../../../src/types/types';
 import { notEmpty } from '../../../src/lib/functions';
+import { getIcon } from '../../../src/lib/image.helpers';
 
 type CustomPlayer = ArrayElement<Awaited<ReturnType<typeof getPlayers>>>;
 
 interface UniqueChampion extends Partial<Champion> {
   count: number;
+  icon: string;
+  wins: number;
+  loses: number;
 }
 
 type Result = 'WIN' | 'LOSS';
@@ -35,8 +39,10 @@ interface CustomMatch {
 export interface ReturnPlayer {
   id: number;
   name: string | null;
-  rank: number | null;
+  rank: string | null;
   placement: PlayerPlacement;
+  wins: number;
+  loses: number;
   record: string;
   champions: UniqueChampion[];
   matches: CustomMatch[];
@@ -45,9 +51,11 @@ export interface ReturnPlayer {
 function getPlayers(tournamentId: number) {
   return prisma.player.findMany({
     include: {
+      rank: true,
       playerMatches: {
         select: {
           champion: true,
+          side: true,
           match: {
             include: {
               playerMatches: {
@@ -94,23 +102,38 @@ function getUniqueChampions(player: CustomPlayer) {
   const startArray: UniqueChampion[] = [];
 
   return player.playerMatches
+    .filter((pm) => Boolean(pm.champion?.name))
     .map((pm) => {
       return {
         ...pm.champion,
+        didWin: pm.side === pm.match.winside,
+        icon: getIcon(pm.champion?.name ?? ''),
         count: 1,
       };
     })
-    .filter((pm) => pm.name)
     .reduce((result, champion) => {
       const index = result.findIndex((ch) => ch.id === champion.id);
 
       if (index === -1) {
-        return [...result, { ...champion, count: 1 }];
+        return [
+          ...result,
+          {
+            ...champion,
+            count: 1,
+            wins: Number(champion.didWin),
+            loses: Number(!champion.didWin),
+          },
+        ];
       }
 
       return result.map((res, idx) => {
         if (idx === index) {
-          return { ...res, count: res.count + 1 };
+          return {
+            ...res,
+            count: res.count + 1,
+            wins: res.wins + Number(champion.didWin),
+            loses: res.loses + Number(!champion.didWin),
+          };
         }
 
         return res;
@@ -215,14 +238,17 @@ export async function getPlayersFromTournament(
     const champions = getUniqueChampions(player);
     const matches = getAllMatches(player);
     const wonMatches = matches.filter((match) => match?.result === 'WIN');
+    const lostMatches = matches.filter((match) => match?.result === 'LOSS');
     const placement = getPlayerPlacement(player);
 
     return {
       id: player.id,
       name: player.name,
-      rank: player.rankId,
+      rank: player.rank?.name ?? null,
       placement,
       record: `${wonMatches.length}/${matches.length}`,
+      wins: wonMatches.length,
+      loses: lostMatches.length,
       champions,
       matches,
     };
