@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { PlayerCardInfo } from '../../../prisma/queries';
 import { FaRegDotCircle, BsCircle } from '../icons';
 import { PlayerCard } from '../PlayerCard';
@@ -45,12 +45,6 @@ export function PlayerCardHolder({
 }: Props) {
   const cardIndex = visibleCard % cardInfos.length;
   const cardInfo = cardInfos[cardIndex];
-
-  useEffect(() => {
-    return () => {
-      setVisibleCard(0);
-    };
-  }, [setVisibleCard]);
 
   return (
     <div
