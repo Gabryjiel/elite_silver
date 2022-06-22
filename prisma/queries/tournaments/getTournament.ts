@@ -1,4 +1,4 @@
-import prisma from '../../prisma';
+import { prisma } from '../../prisma';
 
 export function getTournament(id: number) {
   return prisma.tournament.findUnique({

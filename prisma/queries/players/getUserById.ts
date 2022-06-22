@@ -1,4 +1,4 @@
-import prisma from '../../prisma';
+import { prisma } from '../../prisma';
 
 export async function getUserById(id: number) {
   const user = await prisma.user.findUnique({

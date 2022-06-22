@@ -6,6 +6,11 @@ import { PrismaClient } from '@prisma/client';
 // Learn more:
 // https://pris.ly/d/help/next-js-best-practices
 
-const prisma = new PrismaClient();
+declare global {
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined;
+}
 
-export default prisma;
+export const prisma = global.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') global.prisma = prisma;

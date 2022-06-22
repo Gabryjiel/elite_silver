@@ -5,4 +5,6 @@ export * from './players/getPlayersFromTournament';
 export * from './players/getUsers';
 export * from './players/getUserById';
 export * from './players/pluckPlayerIds';
+export * from './players/getPlayerCardInfo';
+export * from './players/getPlayerCardInfos';
 export * from './matches/getMatchesFromTournament';

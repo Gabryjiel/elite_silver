@@ -9,7 +9,7 @@ import {
 import { notEmpty } from '../../../src/lib/functions';
 import { getSplash } from '../../../src/lib/image.helpers';
 import { Trophy } from '../../../src/types/types';
-import prisma from '../../prisma';
+import { prisma } from '../../prisma';
 
 type ChampionOccurence = {
   count: number;
