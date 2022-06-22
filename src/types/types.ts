@@ -1,4 +1,4 @@
-import { Tournament } from '@prisma/client';
+import { Champion, Tournament } from '@prisma/client';
 
 export type PlayerPlacement =
   | 'Zwycięzca'
@@ -14,4 +14,11 @@ export type PlayerPlacement =
 export type Trophy = {
   tournament: Pick<Tournament, 'id' | 'name'>;
   place: 1 | 2 | 3;
+};
+
+export type UniqueChampion = Partial<Champion> & {
+  count: number;
+  icon: string;
+  wins: number;
+  loses: number;
 };
