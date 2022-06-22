@@ -1,5 +1,5 @@
 import { Champion, Player, Side, Stage, Waywin } from '@prisma/client';
-import prisma from '../../prisma';
+import { prisma } from '../../prisma';
 import { ArrayElement } from '../../../src/types/utils';
 import { PlayerPlacement } from '../../../src/types/types';
 import { notEmpty } from '../../../src/lib/functions';
@@ -16,7 +16,7 @@ interface UniqueChampion extends Partial<Champion> {
 
 type Result = 'WIN' | 'LOSS';
 
-interface CustomMatch {
+export interface CustomMatch {
   id: number;
   self: {
     champion: Champion | null;
@@ -43,7 +43,6 @@ export interface ReturnPlayer {
   placement: PlayerPlacement;
   wins: number;
   loses: number;
-  record: string;
   champions: UniqueChampion[];
   matches: CustomMatch[];
 }
