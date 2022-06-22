@@ -1,21 +1,19 @@
 import Image from 'next/image';
 import { getCardColorFromPlacement } from './getCardColorFromPlacement';
 import { getSplash } from '../../lib/image.helpers';
-import { ReturnPlayer } from '../../../prisma/queries';
-import PlatinumEmblem from '../../assets/ranks/Emblem_Platinum.png';
+import { PlayerCardInfo } from '../../../prisma/queries';
 import { PlayerCardTrophy } from './Trophy';
 import { getRankEmblem } from './getRankEmblem';
 
 type Props = {
-  tournamentName: string;
-  player: ReturnPlayer;
+  cardInfo: PlayerCardInfo;
 };
 
-export function PlayerCard({ player, tournamentName }: Props) {
-  const colors = getCardColorFromPlacement(player.placement);
-  const [splashChampion] = player.champions;
+export function PlayerCard({ cardInfo }: Props) {
+  const colors = getCardColorFromPlacement(cardInfo.placement);
+  const [splashChampion] = cardInfo.champions;
   const splashArt = getSplash(splashChampion?.name ?? '');
-  const rankSrc = getRankEmblem(player.rank);
+  const rankSrc = getRankEmblem(cardInfo?.rankName);
 
   return (
     <div
@@ -38,12 +36,14 @@ export function PlayerCard({ player, tournamentName }: Props) {
             <Image
               layout="fill"
               objectFit="contain"
-              alt={player.rank ?? ''}
+              alt={cardInfo?.rankName ?? ''}
               src={rankSrc}
             />
           </div>
           <div>
-            <span className="ml-1 font-imfell text-3xl">{player.name}</span>
+            <span className="ml-1 font-imfell text-3xl">
+              {cardInfo.playerName}
+            </span>
           </div>
         </div>
       </div>
@@ -63,8 +63,10 @@ export function PlayerCard({ player, tournamentName }: Props) {
         <div
           className={`flex h-full w-full items-center rounded-md border-2 pl-1 ${colors.placementBg} ${colors.placementBorder}`}
         >
-          <PlayerCardTrophy placement={player.placement} />
-          <span className="ml-1 font-imfell text-2xl">{player.placement}</span>
+          <PlayerCardTrophy placement={cardInfo.placement} />
+          <span className="ml-1 font-imfell text-2xl">
+            {cardInfo.placement}
+          </span>
         </div>
       </div>
       <div data-role="infoBox" className="w-full flex-1 px-3">
@@ -72,9 +74,9 @@ export function PlayerCard({ player, tournamentName }: Props) {
           className={`relative flex h-full w-full flex-col flex-wrap justify-start gap-1 self-start rounded-md border-2 p-2 shadow-xl ${colors.dataBg} ${colors.dataBorder}`}
         >
           <div className="grid h-full w-full auto-cols-auto grid-flow-col grid-rows-3 pl-1 opacity-60">
-            {player.champions.map((champion) => (
+            {cardInfo.champions.map((champion) => (
               <div
-                key={`card-${player.id}-${champion.id}`}
+                key={`card-${cardInfo.playerId}-${champion.id}`}
                 className="z-20 flex gap-3"
               >
                 <div className="relative aspect-square h-16 w-16 overflow-clip rounded-full border-2 border-black text-center">
@@ -99,15 +101,15 @@ export function PlayerCard({ player, tournamentName }: Props) {
       <div data-role="footer" className="relative h-8 w-full">
         <div className="flex h-full w-full items-center justify-start">
           <span className="ml-4 indent-1 font-mono text-lg">
-            {tournamentName}
+            {cardInfo.tournamentName}
           </span>
         </div>
         <div
           className={`absolute -top-6 right-2 flex h-12 w-28 items-center justify-center gap-1 rounded-md border-2 text-2xl font-bold ${colors.infoBg} ${colors.infoBorder}`}
         >
-          <span className="text-green-900">{player.wins}</span>
+          <span className="text-green-900">{cardInfo.wins}</span>
           <span>/</span>
-          <span className="text-red-900">{player.loses}</span>
+          <span className="text-red-900">{cardInfo.loses}</span>
         </div>
       </div>
     </div>
