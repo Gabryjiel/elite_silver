@@ -23,10 +23,5 @@
   "exclude": [
     "node_modules"
   ],
-  "include": [
-    "next-env.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "prisma/data/ts/data/*.ts"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
