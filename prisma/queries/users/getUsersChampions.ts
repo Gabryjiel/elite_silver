@@ -1,18 +1,8 @@
-import { prisma } from 'prisma/prisma';
 import { getIcon } from '../../../src/lib/image.helpers';
+import { prisma } from '../../prisma';
+import { UniqueChampion } from '../players/getPlayerUniqueChampions';
 
-export type UniqueChampion = {
-  id: number;
-  name: string;
-  wins: number;
-  loses: number;
-};
-
-export type FullUniqueChampion = UniqueChampion & {
-  icon: string;
-};
-
-export async function getPlayerUniqueChampions(playerId: number) {
+export async function getUsersChampion(userId: number) {
   const playerMatches = await prisma.playerMatch.findMany({
     include: {
       champion: true,
@@ -23,7 +13,9 @@ export async function getPlayerUniqueChampions(playerId: number) {
       },
     },
     where: {
-      playerId,
+      player: {
+        userId,
+      },
     },
   });
 
@@ -66,5 +58,24 @@ export async function getPlayerUniqueChampions(playerId: number) {
     .map((champion) => ({
       ...champion,
       icon: getIcon(champion.name),
-    }));
+      count: champion.wins + champion.loses,
+      winRatio: Math.round(
+        (champion.wins * 100) / (champion.wins + champion.loses)
+      ),
+    }))
+    .sort((a, b) => {
+      const countDiff = b.count - a.count;
+
+      if (countDiff !== 0) {
+        return countDiff;
+      }
+
+      const winDiff = b.wins - a.wins;
+
+      if (winDiff !== 0) {
+        return winDiff;
+      }
+
+      return b.name > a.name ? -1 : 1;
+    });
 }

@@ -54,7 +54,7 @@ export function PlayerCardHolder({
       <div className="aspect-card h-10/12">
         <PlayerCard cardInfo={cardInfo} />
       </div>
-      <div className="flex h-1/12 w-full items-center justify-around p-1">
+      <div className="flex h-1/12 w-full items-center justify-evenly p-1">
         <button
           onClick={getPreviousCard}
           className="h-12 w-12 rounded-xl border-2 border-stone-500 bg-stone-400 hover:border-stone-300"

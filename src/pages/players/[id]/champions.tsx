@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import { Wrapper } from '../../../components/layout/Wrapper';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import {
@@ -6,6 +7,8 @@ import {
   getUserById,
   PlayerCardInfo,
   pluckPlayerIds,
+  getUsersChampion,
+  getUserBans,
 } from '../../../../prisma/queries';
 import { Header } from '../../../components/layout/Header';
 import { useRouter } from 'next/router';
@@ -15,14 +18,17 @@ import {
   PlayerCardHolder,
 } from '../../../components/PlayerCardHolder';
 import { GlobalContext } from '../../_app';
+import Link from 'next/link';
 
 type Paths = {
   id: string;
 };
 
 type Props = {
-  user: Awaited<ReturnType<typeof getUserById>>;
   cardInfos: PlayerCardInfo[];
+  user: Awaited<ReturnType<typeof getUserById>>;
+  champions: Awaited<ReturnType<typeof getUsersChampion>>;
+  bans: Awaited<ReturnType<typeof getUserBans>>;
 };
 
 type PageProps = Props & GlobalContext;
@@ -44,6 +50,8 @@ export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
   const userId = parseInt(context.params?.id ?? '0');
   const user = await getUserById(userId);
   const cardInfos = await getPlayerCardInfos(userId);
+  const champions = await getUsersChampion(userId);
+  const bans = await getUserBans(userId);
 
   if (!user) {
     return {
@@ -53,14 +61,18 @@ export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
 
   return {
     props: {
+      bans,
       cardInfos,
+      champions,
       user,
     },
   };
 };
 
 export default function PlayerChampions({
+  bans,
   cardInfos,
+  champions,
   user,
   card,
   setCard,
@@ -92,7 +104,7 @@ export default function PlayerChampions({
           ]}
         />
 
-        <div id="container" className="flex flex-1">
+        <div id="container" className="flex flex-1 overflow-hidden">
           <PlayerCardHolder
             cardInfos={cardInfos}
             getNextCard={getNextCard}
@@ -100,7 +112,98 @@ export default function PlayerChampions({
             setVisibleCard={setCard}
             visibleCard={card}
           />
-          <div id="dashboard" className="h-full flex-1"></div>
+          <div id="dashboard" className="flex h-full flex-1 p-2 text-stone-200">
+            <div data-role="picks" className="flex h-full w-1/2 flex-col">
+              <div className="flex h-1/12 w-full flex-col justify-center pr-4">
+                <div className="flex w-full justify-evenly text-center font-semibold">
+                  <span className="flex-1 text-center text-xl">Wybrani</span>
+                  <span className="flex-1 text-center">Gry</span>
+                  <span className="flex-1 text-center">Wygrane</span>
+                  <span className="flex-1 text-center">Przegrane</span>
+                  <span className="flex-1 text-center">WR</span>
+                </div>
+              </div>
+              <div className="flex h-11/12 flex-col gap-4 overflow-y-auto">
+                {champions.map((champion) => {
+                  return (
+                    <div
+                      key={`picks-${champion.name}`}
+                      className="flex h-16 items-center justify-evenly"
+                    >
+                      <div className="relative aspect-square h-full flex-1">
+                        <Image
+                          layout="fill"
+                          objectFit="contain"
+                          src={champion.icon}
+                          alt={champion.name}
+                          title={champion.name}
+                        />
+                      </div>
+                      <span className="flex-1 text-center">
+                        {champion.count}
+                      </span>
+                      <span className="flex-1 text-center">
+                        {champion.wins}
+                      </span>
+                      <span className="flex-1 text-center">
+                        {champion.loses}
+                      </span>
+                      <span className="flex-1 text-center">
+                        {champion.winRatio + '%'}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div data-role="bans" className="h-full w-1/2">
+              <div className="mb-2 flex h-full w-full flex-col justify-center">
+                <div className="flex h-1/12 w-full flex-col justify-center pr-4">
+                  <div className="flex w-full justify-evenly text-center font-semibold">
+                    <span className="flex-1 text-center text-xl">Banuje</span>
+                    <span className="flex-1 text-center">Liczba banów</span>
+                    <span className="flex-1 text-center">Przeciwko</span>
+                  </div>
+                </div>
+                <div className="flex h-11/12 flex-col gap-4 overflow-y-auto py-4">
+                  {bans.map((ban) => {
+                    return (
+                      <div
+                        key={`picks-${ban.name}`}
+                        className="flex h-16 items-center justify-evenly"
+                      >
+                        <div className="relative aspect-square h-full flex-1">
+                          <Image
+                            layout="fill"
+                            objectFit="contain"
+                            src={ban.icon}
+                            alt={ban.name}
+                            title={ban.name}
+                            className="grayscale"
+                          />
+                        </div>
+                        <span className="flex-1 text-center">{ban.count}</span>
+                        <span className="flex-1 text-center text-sm">
+                          {ban.opponents.map((op) => {
+                            return (
+                              <div key={`ban-${ban.name}-${op.id}`}>
+                                <Link href={`/players/${op.id}`} passHref>
+                                  <a className="cursor-pointer hover:underline">
+                                    {op.name}
+                                  </a>
+                                </Link>
+                                <span>{` x${op.count}`}</span>
+                              </div>
+                            );
+                          })}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Wrapper>
     </>

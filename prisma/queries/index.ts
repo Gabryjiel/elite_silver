@@ -8,3 +8,5 @@ export * from './players/pluckPlayerIds';
 export * from './players/getPlayerCardInfo';
 export * from './players/getPlayerCardInfos';
 export * from './matches/getMatchesFromTournament';
+export * from './users/getUsersChampions';
+export * from './users/getUserBans';
