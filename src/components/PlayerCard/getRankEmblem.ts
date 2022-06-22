@@ -1,4 +1,4 @@
-export function getRankEmblem(rank: string | null) {
+export function getRankEmblem(rank?: string | null) {
   switch (rank) {
     case 'Iron IV':
       return 'https://static.wikia.nocookie.net/leagueoflegends/images/7/70/Season_2019_-_Iron_4.png';
