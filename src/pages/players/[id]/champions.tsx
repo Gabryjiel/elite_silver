@@ -1,18 +1,31 @@
 import Head from 'next/head';
 import { Wrapper } from '../../../components/layout/Wrapper';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { getUserById, pluckPlayerIds } from '../../../../prisma/queries';
+import {
+  getPlayerCardInfos,
+  getUserById,
+  PlayerCardInfo,
+  pluckPlayerIds,
+} from '../../../../prisma/queries';
 import { Header } from '../../../components/layout/Header';
 import { useRouter } from 'next/router';
 import { PageHeader } from '../../../components/layout/PageHeader/PageHeader';
+import {
+  usePlayerCardHolder,
+  PlayerCardHolder,
+} from '../../../components/PlayerCardHolder';
+import { GlobalContext } from '../../_app';
 
 type Paths = {
   id: string;
 };
 
-interface Props {
+type Props = {
   user: Awaited<ReturnType<typeof getUserById>>;
-}
+  cardInfos: PlayerCardInfo[];
+};
+
+type PageProps = Props & GlobalContext;
 
 export const getStaticPaths: GetStaticPaths<Paths> = async () => {
   const userIds = await pluckPlayerIds();
@@ -30,6 +43,7 @@ export const getStaticPaths: GetStaticPaths<Paths> = async () => {
 export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
   const userId = parseInt(context.params?.id ?? '0');
   const user = await getUserById(userId);
+  const cardInfos = await getPlayerCardInfos(userId);
 
   if (!user) {
     return {
@@ -39,13 +53,23 @@ export const getStaticProps: GetStaticProps<Props, Paths> = async (context) => {
 
   return {
     props: {
+      cardInfos,
       user,
     },
   };
 };
 
-export default function PlayerIndex({ user }: Props) {
+export default function PlayerChampions({
+  cardInfos,
+  user,
+  card,
+  setCard,
+}: PageProps) {
   const router = useRouter();
+  const { getNextCard, getPreviousCard } = usePlayerCardHolder(
+    cardInfos.length,
+    setCard
+  );
 
   return (
     <>
@@ -67,6 +91,17 @@ export default function PlayerIndex({ user }: Props) {
             { href: `/players/${user?.id}/opponents`, label: 'Przeciwnicy' },
           ]}
         />
+
+        <div id="container" className="flex flex-1">
+          <PlayerCardHolder
+            cardInfos={cardInfos}
+            getNextCard={getNextCard}
+            getPreviousCard={getPreviousCard}
+            setVisibleCard={setCard}
+            visibleCard={card}
+          />
+          <div id="dashboard" className="h-full flex-1"></div>
+        </div>
       </Wrapper>
     </>
   );
