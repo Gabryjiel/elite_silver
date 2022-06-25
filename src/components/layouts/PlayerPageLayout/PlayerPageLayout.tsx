@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+
 import { getUserById, PlayerCardInfo } from '../../../../prisma/queries';
 import { BrowserWrapper } from '../../layout/BrowserWrapper';
 import { MobileWrapper } from '../../layout/MobileWrapper';
@@ -35,8 +36,16 @@ export const PlayerPageLayout = (props: Props) => {
               label: 'Bohaterowie',
             },
             {
+              href: `/players/${id}/bans`,
+              label: 'Banuje',
+            },
+            {
+              href: `/players/${id}/against`,
+              label: 'Zbanowane',
+            },
+            {
               href: `/players/${id}/opponents`,
-              label: 'Przeciwnicy',
+              label: 'Mecze',
             },
           ]}
         />
