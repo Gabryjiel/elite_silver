@@ -1,14 +1,15 @@
-import Head from 'next/head';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
+
 import {
   getPlayerCardInfos,
   getUserById,
   PlayerCardInfo,
   pluckPlayerIds,
 } from '../../../../prisma/queries';
-import { GlobalContext } from '../../_app';
-import { NextPageWithLayout } from '../../../types';
 import { PlayerPageLayout } from '../../../components/layouts';
+import { NextPageWithLayout } from '../../../types';
+import { GlobalContext } from '../../_app';
 
 type Paths = {
   id: string;
