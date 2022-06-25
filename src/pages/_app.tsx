@@ -1,15 +1,16 @@
 import '../styles/globals.css';
-import type { AppProps } from 'next/app';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { AppPropsWithLayout } from '../types';
 
 export type GlobalContext = {
   card: number;
   setCard: Dispatch<SetStateAction<number>>;
 };
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [card, setCard] = useState(0);
 
-  return <Component {...pageProps} card={card} setCard={setCard} />;
+  const getLayout = Component.getLayout ?? ((page) => page);
+
+  return getLayout(<Component {...pageProps} card={card} setCard={setCard} />);
 }
-export default MyApp;
