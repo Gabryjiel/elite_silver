@@ -11,7 +11,7 @@ type Props = {
 
 export function PageHeader({ asPath, navLinks, text }: Props) {
   return (
-    <div className="flex h-32 w-full items-center justify-between pr-32">
+    <div className="flex h-32 w-full items-center justify-evenly px-8">
       <div className="w-2/6 text-center">
         <span className="text-4xl font-bold text-stone-300">{text}</span>
       </div>
