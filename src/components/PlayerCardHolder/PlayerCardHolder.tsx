@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
+
 import { PlayerCardInfo } from '../../../prisma/queries';
-import { FaRegDotCircle, BsCircle } from '../icons';
+import { BsCircle, FaRegDotCircle } from '../icons';
 import { PlayerCard } from '../PlayerCard';
 
 type Props = {
@@ -49,7 +50,7 @@ export function PlayerCardHolder({
   return (
     <div
       data-role="card-holder"
-      className="flex w-1/3 flex-col items-center justify-around p-2"
+      className="flex w-1/3 flex-col items-center justify-around p-8"
     >
       <div className="aspect-card h-10/12">
         <PlayerCard cardInfo={cardInfo} />

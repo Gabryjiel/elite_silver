@@ -1,9 +1,10 @@
 import Image from 'next/image';
-import { getCardColorFromPlacement } from './getCardColorFromPlacement';
-import { getSplash } from '../../lib/image.helpers';
+
 import { PlayerCardInfo } from '../../../prisma/queries';
-import { PlayerCardTrophy } from './Trophy';
+import { getSplash } from '../../lib/image.helpers';
+import { getCardColorFromPlacement } from './getCardColorFromPlacement';
 import { getRankEmblem } from './getRankEmblem';
+import { PlayerCardTrophy } from './Trophy';
 
 type Props = {
   cardInfo: PlayerCardInfo;
@@ -77,9 +78,9 @@ export function PlayerCard({ cardInfo }: Props) {
             {cardInfo.champions.map((champion) => (
               <div
                 key={`card-${cardInfo.playerId}-${champion.id}`}
-                className="z-20 flex gap-3"
+                className="z-20 flex items-center justify-start gap-1"
               >
-                <div className="relative aspect-square h-16 w-16 overflow-clip rounded-full border-2 border-black text-center">
+                <div className="relative aspect-square h-14 w-14 overflow-clip rounded-full border-2 border-black text-center">
                   <Image
                     layout="fill"
                     objectFit="contain"
@@ -89,9 +90,9 @@ export function PlayerCard({ cardInfo }: Props) {
                   />
                 </div>
                 <div className="flex items-center">
-                  <span className="text-3xl">{champion.wins}</span>
-                  <span className="text-3xl">/</span>
-                  <span className="text-3xl">{champion.loses}</span>
+                  <span className="text-2xl">{champion.wins}</span>
+                  <span className="text-2xl">/</span>
+                  <span className="text-2xl">{champion.loses}</span>
                 </div>
               </div>
             ))}
