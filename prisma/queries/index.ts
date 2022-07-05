@@ -10,4 +10,5 @@ export * from './tournaments/getTournaments';
 export * from './tournaments/pluckTournamentIds';
 export * from './users/getUserBanned';
 export * from './users/getUserBans';
+export * from './users/getUserMatches';
 export * from './users/getUsersChampions';
